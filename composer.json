@@ -1,0 +1,9 @@
+{
+    "name": "jcramirezo/juridico",
+    "description": "\"juridico\"",
+    "type": "project",
+    "license": "MIT",
+    "require": {
+        "donut/path": "^0.1.0"
+    }
+}
