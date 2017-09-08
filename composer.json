@@ -4,7 +4,6 @@
     "type": "project",
     "license": "MIT",
     "require": {
-        "donut/path": "^0.1.0",
-        "propel/propel": "~2.0@dev"
+        "donut/path": "^0.1.0"
     }
 }

@@ -6,6 +6,7 @@ $rutas= new Rutas();
 
 include_once $rutas->controllers('urls.php');
 include_once $rutas->controllers('tablas.php');
+include_once $rutas->Orm('consultas.php');
 
 
 
@@ -22,8 +23,11 @@ $app->get('/juridico/:modulo',function($modulo) use ($app){
 
 /*---------------carga la tabla principal -------------------------*/
 $app->get('/table/:modulo',function($modulo) use ($app){
-     $url = new Tablas();
-     $url->cargaTabla($modulo);
+    $orm = new Consultas();
+    $campos = array ('idCaracter' => '3', 'siglas' => 'ACTIVO', 'nombre' => 'irac' );
+    $result=$orm->getFieldsOrder($modulo,$campos,$campos);
+    
+    var_dump($result);
 
 })
 

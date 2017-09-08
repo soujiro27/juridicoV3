@@ -6,6 +6,10 @@ class Rutas{
         $path = p\join("juridico", "Controllers",$controller);
         return $path;
     }
+    public function Orm($consulta){
+        $path = p\join("juridico", "orm",$consulta);
+        return $path;
+    }
 }
 
 
