@@ -5,13 +5,13 @@ module.exports = {
   entry: './src/main.js',
   output: {
     path: path.resolve(__dirname, './dist'),
-    publicPath: '/dist/',
+    publicPath: '/juridico/dist/',
     filename: 'bundle.js'
   },
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.jar$/,
         loader: 'eslint-loader',
         enforce: 'pre',
         include: [path.resolve(__dirname, './src')]
@@ -25,7 +25,7 @@ module.exports = {
         test: /\.(png|jpg|gif|svg)$/,
         loader: 'file-loader',
         options: {
-          name: '[name].[ext]?[hash]'
+          name: '[name].[ext]'
         }
       },
       {
@@ -50,7 +50,7 @@ module.exports = {
     alias: {
       '@': path.resolve(__dirname, './src')
     },
-    extensions: ['.js', 'jsx', '.css', '.scss', '.eot', '.woff', '.ttf']
+    extensions: ['.js', 'jsx', '.css', '.scss', '.eot', '.woff', '.ttf', 'png']
   },
   devServer: {
     historyApiFallback: true,

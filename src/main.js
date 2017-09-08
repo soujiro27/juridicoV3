@@ -1,2 +1,4 @@
 require('./main.scss')
-require('./js/menu/menu')
+const menu = require('./js/menu/menu')
+const table = require('./js/tables/')
+menu()

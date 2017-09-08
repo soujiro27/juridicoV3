@@ -11,7 +11,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "jquery": "^3.2.1"
+    "jquery": "^3.2.1",
+    "trae": "^1.4.2"
   },
   "devDependencies": {
     "babel-core": "^6.0.0",
