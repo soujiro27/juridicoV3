@@ -11,12 +11,6 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.jar$/,
-        loader: 'eslint-loader',
-        enforce: 'pre',
-        include: [path.resolve(__dirname, './src')]
-      },
-      {
         test: /\.js$/,
         loader: 'babel-loader',
         exclude: /node_modules/

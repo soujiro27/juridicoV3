@@ -13,6 +13,11 @@ class Catalogos{
         'DoctosTextos'
     ];
 
+    private $changeName=[
+        'prueba de cambio de nombre'
+    ];
+
+
     public function catalogo(){
         return $this->catalogos;
     }

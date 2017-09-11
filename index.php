@@ -23,11 +23,10 @@ $app->get('/juridico/:modulo',function($modulo) use ($app){
 
 /*---------------carga la tabla principal -------------------------*/
 $app->get('/table/:modulo',function($modulo) use ($app){
-    $orm = new Consultas();
-    $campos = array ('idCaracter' => '3', 'siglas' => 'ACTIVO', 'nombre' => 'irac' );
-    $result=$orm->getFieldsOrder($modulo,$campos,$campos);
+    $url= new urls();
+    $modulo=$url->urlsTablas($modulo);
+    $controller = new Tablas($modulo);
     
-    var_dump($result);
 
 })
 
