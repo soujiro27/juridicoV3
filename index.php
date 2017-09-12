@@ -6,6 +6,7 @@ $rutas= new Rutas();
 
 include_once $rutas->controllers('urls.php');
 include_once $rutas->controllers('tablas.php');
+include_once $rutas->controllers('insert.php');
 include_once $rutas->Orm('consultas.php');
 
 
@@ -26,10 +27,17 @@ $app->get('/table/:modulo',function($modulo) use ($app){
     $url= new urls();
     $modulo=$url->urlsTablas($modulo);
     $controller = new Tablas($modulo);
-    
+});
 
-})
 
+/*------------------------ Carga los modulos de insercion --------------*/
+
+$app->post('/insert/:modulo',function($modulo) use ($app){
+    $controller = new Insert();
+    $url= new urls();
+    $modulo=$url->urlsTablas($modulo);
+    $controller->insertCatalogo($modulo,$app->request->post());
+});
 
 
 ?>

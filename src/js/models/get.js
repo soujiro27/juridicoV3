@@ -12,4 +12,17 @@ module.exports=class Get {
         })
         return get
     }
+
+    sendDataToInsert(ruta,datos){
+        let insert=new Promise((resolve,reject)=>{
+            $.post({
+                url:'/insert/'+ruta,
+                data:datos,
+                success:function(json){
+                    let res=JSON.parse(json)
+                    resolve(res)
+                }
+            })
+        })
+    }
 }

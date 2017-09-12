@@ -11,7 +11,6 @@ module.exports=class Tablas {
         res.then(json=>{
             template= new table();
             render=template.renderTabla(ruta,json)
-            console.log(render)
             $('div#main-content').html(render)
     })
   }

@@ -11,6 +11,15 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.(html)$/,
+        use: {
+          loader: 'html-loader',
+          options: {
+            attrs: [':data-src']
+          }
+        }
+      },
+      {
         test: /\.js$/,
         loader: 'babel-loader',
         exclude: /node_modules/
@@ -53,7 +62,15 @@ module.exports = {
   performance: {
     hints: false
   },
-  devtool: '#eval-source-map'
+  devtool: '#eval-source-map',
+  plugins: [
+    new webpack.ProvidePlugin({
+        $: "jquery",
+        jQuery: "jquery",
+        "window.jQuery": "jquery'",
+        "window.$": "jquery"
+    })
+  ]
 }
 
 if (process.env.NODE_ENV === 'production') {

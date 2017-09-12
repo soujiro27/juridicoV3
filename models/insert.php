@@ -1,6 +1,5 @@
 <?php 
 
-include_once 'juridico/orm/consultas.php';
 
 class Get{
 
@@ -15,19 +14,13 @@ class Get{
         }
     }
 
-    public function consultaSimple($sql){
+    public function insertSimple($sql){
         $db=$this->conecta();
         $query=$db->prepare($sql);
+        
         $query->execute();
         return $query->fetchAll(PDO::FETCH_ASSOC);
 
-    }
-    
-    public function consultaWhere($sql,$pdo){
-        $db=$this->conecta();
-        $query=$db->prepare($sql);
-        $query->execute($pdo);
-        return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
 }

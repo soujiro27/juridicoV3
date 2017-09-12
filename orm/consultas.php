@@ -36,7 +36,7 @@ class Consultas{
         return $sql;
     }
 
-/*----------------consultas con where --------------------*/
+/*----------------consultas con and, or = <> --------------------*/
     public function getAllWhere($tabla,$campos,$logico,$igualador){
         $sql=$this->all.$tabla.' Where ';
         $fields=$this->buildFieldsWhere($campos,$logico,$igualador);
@@ -64,9 +64,14 @@ class Consultas{
     }
 
 
-/*------------------consultas con <> ------------------*/
+/*------------------Modulos de insert ------------------*/
 
-
+    public function insertQuery($tabla,$datos){
+        $campos=$this->buildFields($datos);
+        $queryVal=$this->buildPdoValuesQueryInsert($datos);
+        $sql='INSERT INTO sia_'.$tabla.'('.$campos.',usrAlta,fAlta) Values ('.$queryVal.',:usrAlta,getdate())';
+        return $sql;
+    }
 
 
 
@@ -91,6 +96,23 @@ class Consultas{
         $cadena=rtrim($cadena,$logico);
         return $cadena;
 
+    }
+
+    public function buildPdoValuesQueryInsert($campos){
+        $cadena='';
+        foreach ($campos as $key => $value) {
+            $cadena=$cadena.':'.$key.',';
+        }
+        $cadena=rtrim($cadena,',');
+        return $cadena;
+    }
+
+    public function buildArrayPdo($datos){
+        $arreglo=array();
+        foreach ($datos as $key => $value) {
+            $arreglo[':'.$key]=$value;
+        }
+        return $arreglo;
     }
 
  
