@@ -8,6 +8,7 @@ include_once $rutas->controllers('urls.php');
 include_once $rutas->controllers('tablas.php');
 include_once $rutas->controllers('insert.php');
 include_once $rutas->controllers('get.php');
+include_once $rutas->controllers('update.php');
 include_once $rutas->Orm('consultas.php');
 
 
@@ -48,6 +49,16 @@ $app->get('/getRegister/:modulo',function($modulo) use ($app){
     $modulo=$url->urlsTablas($modulo);
     $controller->getRegisterController($modulo,$app->request->get());
 
+
+});
+
+
+/*---------------------carga los modulos del update ----------------------*/
+$app->post('/update/:modulo',function($modulo) use ($app){
+  $controller= new UpdateController();
+  $url= new urls();
+  $modulo=$url->urlsTablas($modulo);
+  $controller->updateCatalogo($modulo,$app->request->post());
 
 });
 

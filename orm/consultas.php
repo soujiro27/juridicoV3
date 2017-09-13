@@ -64,7 +64,7 @@ class Consultas{
     }
 
 
-/*------------------Modulos de insert ------------------*/
+/*------------------Genera Query de insert ------------------*/
 
     public function insertQuery($tabla,$datos){
         $campos=$this->buildFields($datos);
@@ -73,6 +73,15 @@ class Consultas{
         return $sql;
     }
 
+
+/*----------- Genera Query de update ----------------*/
+
+    public function updateQuery($tabla,$datos,$datosWhere){
+        $campos=$this->buildValuesQueryUpdate($datos);
+        $where=$this->buildFieldsWhere($datosWhere,'AND','=');
+        $sql='UPDATE sia_'.$tabla.' SET '.$campos.', usrModificacion=:usrModificacion,fModificacion=getdate() WHERE '.$where;
+        return $sql;
+    }
 
 
 
@@ -113,6 +122,15 @@ class Consultas{
             $arreglo[':'.$key]=$value;
         }
         return $arreglo;
+    }
+
+    public function buildValuesQueryUpdate($campos){
+        $cadena='';
+        foreach ($campos as $key => $value) {
+            $cadena=$cadena.$key.'=:'.$key.',';
+        }
+        $cadena=rtrim($cadena,',');
+        return $cadena;
     }
 
  
