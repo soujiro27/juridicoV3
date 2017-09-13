@@ -11,4 +11,12 @@ module.exports=class Messages{
             theme:'light'
         })
     }
+
+    registerDuplicate(msg){
+        $.alert({
+            title:'Error',
+            content:msg,
+            theme:'light'
+        })
+    }
 }

@@ -6,6 +6,8 @@ const models=require('./../models/get')
 let confirm=new jqueryConfirm();
 let model= new models()
 module.exports=class Insert{
+
+
     getDataForm(ruta,valida){
         let self=this
         $('form#'+ruta).submit(function(e){
@@ -14,6 +16,9 @@ module.exports=class Insert{
             let validacion=self.validaDatosForm(datos,valida)
             if(validacion){
                 model.sendDataToInsert(ruta,datos)
+                .then(json=>{
+                    self.statusInsertRegister(json)
+                })
             }
         })
     }
@@ -32,6 +37,15 @@ module.exports=class Insert{
             return true
         }
     }
+
+    statusInsertRegister(json){
+        $.each(json,function(index,el){
+            if(index==='Error'){
+                confirm.registerDuplicate(el)
+            }
+        })
+    }
+
 
     
 }

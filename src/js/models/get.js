@@ -24,5 +24,6 @@ module.exports=class Get {
                 }
             })
         })
+        return insert
     }
 }

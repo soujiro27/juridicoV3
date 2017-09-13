@@ -1,7 +1,7 @@
 <?php 
 
 
-class Get{
+class InsertModel{
 
     public function conecta(){
         try{
@@ -14,13 +14,16 @@ class Get{
         }
     }
 
-    public function insertSimple($sql){
+    public function InsertPdo($sql,$pdo){
         $db=$this->conecta();
         $query=$db->prepare($sql);
-        
-        $query->execute();
-        return $query->fetchAll(PDO::FETCH_ASSOC);
-
+        $pdo[':usrAlta']=$_SESSION ["idUsuario"];
+        $dbQuery->execute($pdo);
+        $errores=$dbQuery->errorInfo();     
+        if(!empty($errores)){
+            $insert=array('Error' => $errores);
+            echo json_encode($insert);
+        }
     }
 
 }

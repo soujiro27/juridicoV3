@@ -27,7 +27,15 @@ class Get{
         $db=$this->conecta();
         $query=$db->prepare($sql);
         $query->execute($pdo);
-        return $query->fetchAll(PDO::FETCH_ASSOC);
+        $res=$query->fetchAll(PDO::FETCH_ASSOC);
+        $errores=$query->errorInfo();   
+        if(!empty($res)){
+            return $res;
+        }elseif(empty()){
+            $insert=array('Error' => $errores);
+            return $insert;
+            
+        }
     }
 
 }
