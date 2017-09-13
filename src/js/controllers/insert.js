@@ -46,6 +46,12 @@ module.exports=class Insert{
         })
     }
 
-
+    btnCancelar(ruta){
+        let self=this
+        $('button#cancelar').click(function(event){
+            event.preventDefault()
+            location.href='/juridico/'+ruta
+        })
+    }
     
 }

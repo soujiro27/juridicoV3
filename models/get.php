@@ -25,16 +25,21 @@ class Get{
     
     public function consultaWhere($sql,$pdo){
         $db=$this->conecta();
-        $query=$db->prepare($sql);
-        $query->execute($pdo);
-        $res=$query->fetchAll(PDO::FETCH_ASSOC);
-        $errores=$query->errorInfo();   
-        if(!empty($res)){
-            return $res;
-        }elseif(empty()){
-            $insert=array('Error' => $errores);
-            return $insert;
-            
+        try{
+
+            $query=$db->prepare($sql);
+            $query->execute($pdo);
+            $res=$query->fetchAll(PDO::FETCH_ASSOC);
+            if(!empty($res)){
+                return $res;
+            }else{
+                return False;
+                
+            }
+        } catch(PDOException $e){
+            $errores=$query->errorInfo();   
+            $get=array('Error' => $errores);
+            echo json_encode($get);
         }
     }
 

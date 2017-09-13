@@ -16,11 +16,12 @@ class InsertModel{
 
     public function InsertPdo($sql,$pdo){
         $db=$this->conecta();
-        $query=$db->prepare($sql);
-        $pdo[':usrAlta']=$_SESSION ["idUsuario"];
-        $dbQuery->execute($pdo);
-        $errores=$dbQuery->errorInfo();     
-        if(!empty($errores)){
+        try{
+            $dbQuery=$db->prepare($sql);
+            $pdo[':usrAlta']=$_SESSION ["idUsuario"];
+            $dbQuery->execute($pdo);
+        } catch(PDOException $e){
+            $errores=$dbQuery->errorInfo();     
             $insert=array('Error' => $errores);
             echo json_encode($insert);
         }

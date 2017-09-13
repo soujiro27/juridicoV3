@@ -13,12 +13,13 @@ class Insert extends Consultas{
            if($sql){
                $sql = $this->insertQuery($modulo,$datos);
                $pdo = $this->buildArrayPdo($datos);
-               //$insert = new Insert();
-
+               $insert =  new InsertModel();
+               $insert->InsertPdo($sql,$pdo);
             }else{
                 $insert=array('Error' => 'Registro Duplicado');
                 echo json_encode($insert);
             }
+            
         }
     }
 
@@ -36,8 +37,11 @@ class Insert extends Consultas{
         $sql=$this->getAllWhere($modulo,$datos,'AND','=');
         $arrayPdo=$this->buildArrayPdo($datos);
         $res=$get->consultaWhere($sql,$arrayPdo);
-        //var_dump($res);
-
+        if(!$res){
+            return True;
+        }else{
+            return False;
+        }
     }
 }
 

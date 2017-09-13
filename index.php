@@ -7,6 +7,7 @@ $rutas= new Rutas();
 include_once $rutas->controllers('urls.php');
 include_once $rutas->controllers('tablas.php');
 include_once $rutas->controllers('insert.php');
+include_once $rutas->controllers('get.php');
 include_once $rutas->Orm('consultas.php');
 
 
@@ -39,5 +40,15 @@ $app->post('/insert/:modulo',function($modulo) use ($app){
     $controller->insertCatalogo($modulo,$app->request->post());
 });
 
+/*--------------obtiene un registro -------------------*/
+
+$app->get('/getRegister/:modulo',function($modulo) use ($app){
+    $url= new urls();
+    $controller= new GetController();
+    $modulo=$url->urlsTablas($modulo);
+    $controller->getRegisterController($modulo,$app->request->get());
+
+
+});
 
 ?>
