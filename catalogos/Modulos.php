@@ -4,7 +4,8 @@
 class Catalogos{
     private $modulos=[
         'Volantes',
-        'Documentos'
+        'Documentos',
+        'tiposDocumentos'
     ];
     private $catalogos=[
         'Caracteres',
