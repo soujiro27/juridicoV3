@@ -27,4 +27,35 @@ module.exports=class UpdateModals{
             }
         })
     }
+
+    modalCatalogoCkeEditor(ruta,template,campo,id){
+        let self=this
+        $.confirm({
+            title:'Actualizar Registro',
+            theme:'material',
+            content:template,
+            onOpenBefore:function(){
+                try{
+                    CKEDITOR.disableAutoInline = true;
+                    let editor=CKEDITOR.inline('updateTexto');
+                    editor.on('change',function(e){
+                        $('textarea#updateTexto').text(editor.getData())
+                    })
+                }catch(err){
+                    console.log(err)
+                }
+            },
+            buttons:{
+                formSubmit:{
+                    text:'Actualizar',
+                    btnClass:'btn-blue',
+                    action:function(e){
+                       updateController.getDataForm(ruta,campo,id)
+
+
+                    }
+                }
+            }
+        })
+    }
 }

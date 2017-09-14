@@ -13,6 +13,8 @@ class Tablas{
        {$this->generateQueryOrm($modulo,$catTablas->Acciones());}
        elseif ($modulo=='CatSubTiposDocumentos') { 
         $this->generateQueryOrm($modulo,$catTablas->SubTiposDocumentos());
+       }elseif ($modulo=='CatDoctosTextos') {
+           $this->QuerySimple($catTablas->DoctosTexto());
        }
            
    }
@@ -25,8 +27,10 @@ class Tablas{
         echo json_encode($res);
    }
 
-   public function QuerySimple(){
-    // alñgo
+   public function QuerySimple($sql){
+        $model = new Get();   
+        $res=$model->consultaSimple($sql);
+        echo json_encode($res);
    }
 }
 

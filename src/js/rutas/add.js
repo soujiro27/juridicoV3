@@ -1,5 +1,7 @@
+window.CKEDITOR_BASEPATH = 'node_modules/ckeditor/'
 const page =require('page')
 const $=require('jquery')
+require('ckeditor')
 const insertController=require('./../controllers/insert')
 const getter= require('./../models/get')
 
@@ -45,6 +47,29 @@ page('/juridico/SubTiposDocumentos/add',function(ctx,next){
         setTimeout(function(){
             $('div#main-content').html(html).slideDown('slow')
             let datosForm=insert.getDataForm(ruta,false)
+            insert.btnCancelar(ruta)
+        },300)
+    })
+
+})
+
+
+page('/juridico/DoctosTextos/add',function(ctx,next){
+    let documentos=get.getRegister('tiposDocumentos',{tipo:'JURIDICO'})
+    let subDocumentos=get.getRegister('SubTiposDocumentos',{estatus:'ACTIVO'})
+    Promise.all([documentos,subDocumentos])
+    .then(json=>{
+        const template=require('./../templates/insert/DoctosTextos')
+        let temp=new template()
+        let html=temp.render(json[0],json[1])
+        $('div#main-content').slideUp('fast')
+        setTimeout(function(){
+            $('div#main-content').html(html).slideDown('slow')
+            CKEDITOR.disableAutoInline = false;
+            if(CKEDITOR.replace('texto')){
+                let datosForm=insert.getDataForm(ruta,false)
+
+            }
             insert.btnCancelar(ruta)
         },300)
     })

@@ -30,3 +30,35 @@ page('/juridico/Acciones/update/:campo/:id',function(ctx,next){
        
     })
  })
+
+
+ 
+page('/juridico/SubTiposDocumentos/update/:campo/:id',function(ctx,next){
+    let data=updateController.creaObjeto(ctx)
+    let combo=get.getRegister('tiposDocumentos',{tipo:'JURIDICO'})
+    let datos=get.getRegister(ruta,data)
+    Promise.all([combo,datos])
+    .then(json=>{
+        const getTemplate=require('./../templates/update/SubTiposDocumentos')
+        let template=new getTemplate()
+        template=template.render(json[0],json[1])
+        modal.modalCatalogo(ruta,template,ctx.params.campo,ctx.params.id)
+       
+    })
+ })
+
+
+ page('/juridico/DoctosTextos/update/:campo/:id',function(ctx,next){
+    let data=updateController.creaObjeto(ctx)
+    let documentos=get.getRegister('tiposDocumentos',{tipo:'JURIDICO'})
+    let subDocumentos=get.getRegister('SubTiposDocumentos',{estatus:'ACTIVO'})
+    let datos=get.getRegister(ruta,data)
+    Promise.all([documentos,subDocumentos,datos])
+    .then(json=>{
+        const getTemplate=require('./../templates/update/DoctosTexto')
+        let template=new getTemplate()
+        template=template.render(json[0],json[1],json[2])
+        modal.modalCatalogoCkeEditor(ruta,template,ctx.params.campo,ctx.params.id)
+       
+    })
+ })
