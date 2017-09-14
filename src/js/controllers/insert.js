@@ -2,6 +2,7 @@ const $=require('jquery')
 const validate=require('validator')
 const jqueryConfirm=require('./../modals/messages')
 const models=require('./../models/get')
+const table=require('./tablas')
 
 let confirm=new jqueryConfirm();
 let model= new models()
@@ -17,7 +18,7 @@ module.exports=class Insert{
             if(validacion){
                 model.sendDataToInsert(ruta,datos)
                 .then(json=>{
-                    self.statusInsertRegister(json)
+                    self.statusInsertRegister(json,ruta)
                 })
             }
         })
@@ -42,6 +43,8 @@ module.exports=class Insert{
         $.each(json,function(index,el){
             if(index==='Error'){
                 confirm.registerDuplicate(el)
+            }else if(index==='Success'){
+                let drawTable= new table(ruta)
             }
         })
     }

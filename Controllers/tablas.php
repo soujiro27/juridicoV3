@@ -11,6 +11,9 @@ class Tablas{
        { $this->generateQueryOrm($modulo,$catTablas->Caracteres());}
        elseif($modulo=='CatAcciones')
        {$this->generateQueryOrm($modulo,$catTablas->Acciones());}
+       elseif ($modulo=='CatSubTiposDocumentos') { 
+        $this->generateQueryOrm($modulo,$catTablas->SubTiposDocumentos());
+       }
            
    }
 

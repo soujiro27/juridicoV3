@@ -1,7 +1,7 @@
 const $=require('jquery')
 const model=require('./../models/get')
 const jqueryConfirm=require('./../modals/messages')
-const drawTable= require('./tablas')
+const table=require('./tablas')
 const validate=require('validator')
 const get = new model();
 let confirm=new jqueryConfirm();
@@ -23,8 +23,8 @@ module.exports=class UpdateController{
         if(valida){
             let datos=$('form#'+ruta).serialize()+'&'+campo+'='+id
             get.sendDataToUpdate(ruta,datos).then(json=>{
-                self.statusInsertRegister(json)
-                //let tabla= new drawTable(ruta)
+                self.statusInsertRegister(json,ruta)
+                
             })
         }
     }
@@ -46,7 +46,8 @@ module.exports=class UpdateController{
         $.each(json,function(index,el){
             if(index==='Error'){
                 confirm.registerDuplicate(el)
-            }
+            }else if(index==='Success'){
+                let drawTable= new table(ruta)}
         })
     }
 

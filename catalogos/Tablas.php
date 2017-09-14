@@ -17,6 +17,13 @@ class CatTablas{
 
     );
 
+    private $SubTiposDocumentos=array(
+        'idSubTipoDocumento'=>0,
+        'idTipoDocto'=>0,
+        'nombre'=>0,
+        'estatus'=>0
+    );
+
     public function Caracteres(){
         return $this->Caracteres;
     }
@@ -24,6 +31,11 @@ class CatTablas{
     public function Acciones(){
         return $this->Acciones;
     }
+
+    public function SubTiposDocumentos(){
+        return $this->SubTiposDocumentos;
+    }
+
 
 }
 
