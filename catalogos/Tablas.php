@@ -32,6 +32,18 @@ class CatTablas{
     inner join sia_catSubTiposDocumentos std on cdt.idSubTipoDocumento=std.idSubTipoDocumento";
     
     
+    private $volantes='select v.idVolante, v.folio, v.subfolio, v.numDocumento, v.idRemitente as Remitente, v.idTurnado as Turnado, v.fRecepcion,  v.extemporaneo, 
+    a.clave as auditoria,
+    sub.nombre as documento,
+    t.estadoProceso as estado,
+    v.estatus
+    from sia_VolantesDocumentos vd
+    inner join sia_Volantes v on vd.idVolante=v.idVolante
+    inner join sia_turnosJuridico t on v.idVolante=t.idVolante
+    inner join sia_auditorias a on vd.cveAuditoria=a.idAuditoria
+    inner join sia_catSubTiposDocumentos sub on vd.idSubTipoDocumento=sub.idSubTipoDocumento order by idVolante desc';
+
+
 
     public function Caracteres(){
         return $this->Caracteres;
@@ -47,6 +59,10 @@ class CatTablas{
 
     public function DoctosTexto(){
         return $this->DoctosTextos;
+    }
+
+    public function volantes(){
+        return $this->volantes;
     }
 
 }

@@ -75,3 +75,22 @@ page('/juridico/DoctosTextos/add',function(ctx,next){
     })
 
 })
+
+
+page('/juridico/Volantes/add',function(ctx,next){
+    //let caracteres=get.getRegister('Caracteres',{estatus:'ACTIVO'})
+    //let turnado=get.getRegister('areas',{adAreaSuperior:'DGAJ'})
+    //let acccion= get.getRegister('Acciones',{estatus:'ACTIVO'})
+    get.getRegister('tiposDocumentos',{tipo:'JURIDICO'})
+    .then(json=>{
+        const template=require('./../templates/insert/Volantes')
+        let temp=new template()
+        let html=temp.render(json)
+        $('div#main-content').html(html)
+        insert.onChangeDocumento()
+        insert.onchangeSubDocumento()
+        //let datosForm=insert.getDataForm(ruta,false)
+        insert.btnCancelar(ruta)
+    })
+
+})

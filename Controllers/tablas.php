@@ -16,6 +16,9 @@ class Tablas{
        }elseif ($modulo=='CatDoctosTextos') {
            $this->QuerySimple($catTablas->DoctosTexto());
        }
+       elseif ($modulo=='Volantes') {
+        $this->QuerySimple($catTablas->volantes());
+       }
            
    }
 

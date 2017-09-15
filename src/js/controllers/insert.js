@@ -3,9 +3,11 @@ const validate=require('validator')
 const jqueryConfirm=require('./../modals/messages')
 const models=require('./../models/get')
 const table=require('./tablas')
+const confirmInsert=require('./../modals/insert')
 
-let confirm=new jqueryConfirm();
+let confirm=new jqueryConfirm()
 let model= new models()
+let modalInsert= new confirmInsert()
 module.exports=class Insert{
 
 
@@ -49,6 +51,18 @@ module.exports=class Insert{
         })
     }
 
+    statusQuery(json){
+        let exit
+        $.each(json,function(index,el){
+            if(index==='Error'){
+                 exit=false
+            }else{
+                exit= true
+            }
+        })
+        return exit
+    }
+
     btnCancelar(ruta){
         let self=this
         $('button#cancelar').click(function(event){
@@ -57,4 +71,38 @@ module.exports=class Insert{
         })
     }
     
+
+    onChangeDocumento(){
+        let self=this
+        $('select#idDocumento').change(function(){
+            let id=$(this).val()
+            model.getRegister('SubTiposDocumentos',{idTipoDocto:id,estatus:'ACTIVO'})
+            .then(json=>{
+               if(self.statusQuery(json)){
+                   let opt=require('./../templates/insert/createOption')
+                   let option= new opt()
+                   let template=option.render(json)
+                   $('select#subDocumento').html(template)
+               }else{
+                $('select#subDocumento').html('<option value=""> No hay Registros </option>')
+               }
+            })
+        })   
+    }
+
+    onchangeSubDocumento(){
+        $('select#subDocumento').change(function(){
+            let documento=$('select#idDocumento option:selected').val()
+            let subDocumento=$(this).val();
+            let nombre=model.getRegister('SubTiposDocumentos',{idSubTipoDocumento:subDocumento})
+            .then(json=>{
+                let name=json[0].nombre
+               if(documento==='OFICIO' && name==='CONFRONTA'){
+                   modalInsert.confronta()
+               }
+            })
+        
+
+        })
+    }
 }
