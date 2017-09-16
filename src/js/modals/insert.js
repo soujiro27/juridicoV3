@@ -33,4 +33,5 @@ module.exports=class InsertModals{
             theme:'light'
         })
     }
+    
 }

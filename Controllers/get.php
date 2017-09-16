@@ -20,6 +20,11 @@ class GetController extends Consultas{
             echo json_encode($res);
         }
     }
+
+    public function getRegisterControllerAuditoriaById($id){
+        $get = new Get();
+        
+    }
 }
 
 

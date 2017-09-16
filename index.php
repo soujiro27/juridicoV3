@@ -62,4 +62,12 @@ $app->post('/update/:modulo',function($modulo) use ($app){
 
 });
 
+
+/*-------------------obitene una auditoria por id -------------------------*/
+
+$app->get('/auditorias/:id',function($id) use ($app){
+        //something goes here 
+});
+
+
 ?>

@@ -45,6 +45,7 @@ class CatTablas{
 
 
 
+
     public function Caracteres(){
         return $this->Caracteres;
     }
@@ -64,6 +65,9 @@ class CatTablas{
     public function volantes(){
         return $this->volantes;
     }
+
+   
+
 
 }
 

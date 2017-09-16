@@ -38,10 +38,8 @@ module.exports=class{
         
         <div class="form-group cveAuditoria">
             <label for="cveAuditoria">Clave de Auditoria</label>
-            <select name="cveAuditoria" id="cveAuditoria" required="required" class="form-control">
-                <option value=""> Seleccione una Opción </option>
-              
-            </select>
+            <input type="text" name="cveAuditoria" readonly placeholder="Selecciones Auditoria" id="cveAuditoria" class="form-control">
+            <button class="btn" id="modalAuditoria">Seleccionar Auditoria</button>
         </div>
         
         <div class="form-group extemporaneo">

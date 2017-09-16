@@ -87,8 +87,13 @@ module.exports=class Insert{
                 $('select#subDocumento').html('<option value=""> No hay Registros </option>')
                }
             })
-        })   
+        })
+        
+        
     }
+
+
+
 
     onchangeSubDocumento(){
         $('select#subDocumento').change(function(){
@@ -102,6 +107,13 @@ module.exports=class Insert{
                }
             })
         
+
+        })
+    }
+
+    chooseAuditoria(){
+        $('button#modalAuditoria').click(function(e){
+            e.preventDefault()
 
         })
     }
