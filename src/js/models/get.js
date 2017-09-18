@@ -54,4 +54,17 @@ module.exports=class Get {
         })
         return insert
     }
+
+    getAuditoriaById(id){
+        let insert= new Promise((resolve,rejec)=>{
+            $.get({
+                url:'/auditorias/'+id,
+                success:function(json){
+                    let res=JSON.parse(json)
+                    resolve(res)
+                }
+            })
+        })
+        return insert
+    }
 }

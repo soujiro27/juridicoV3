@@ -7,35 +7,93 @@
 @import './../node_modules/jquery-confirm/css/jquery-confirm.css';
 
 
-td#idCaracter{
+div.pull-right a{
+    color:#fff !important;
+}
+
+div.jconfirm-box-container{
+    margin:0 !important;
+    width: 100%;
+}
+
+
+td#idCaracter,td#idAccion{
     display: none;
 }
-th#idCaracter{
+th#idCaracter,th#idAccion{
     display: none;
+}
+
+th{
+    background-color: #65140F;
+    color:white;
+}
+
+form{
+    padding: 5px
+}
+
+form div label{
+    display: block;
+}
+
+div.send{
+    display: block !important;
+    margin-top:20px;
+}
+
+div.texto{
+    display: block !important;
+    margin-top:20px;
+}
+
+form#Volantes div{
+    margin-right: 10px;
+}
+
+form div.addAuditoriaContainer,div.ascm{
+    display: flex;
+    align-items: center;
+}
+
+form div.addAuditoriaContainer p{
+    padding-right:10px;
+}
+
+div.ascm input#auditoria{
+    width: 35% !important;
+    margin:0 5px;
+}
+
+div.ascm span{
+    background-color: #65140F;
+    color:white;
+    padding: 4px;
+    border-radius: 5px;
+    margin-left: 5px;
+}
+
+div.auditoriaContainer{
+    display: flex;
+    flex-wrap: wrap
 }
 
 div.datosAuditoria{
-
-    background-color: #efefef;
+    width: 100%;
 }
 
-
-div.cke_textarea_inline{
-    border:1px solid #afafaf;
-    border-radius: 5px;
-
-}
-
-div#cke_observacionUpdate{
-
-    z-index: 999999999 !important;
-}
-
-div.pull-left span{
-
-    background-color: #afafaf;
-    color: white;
-    padding: 3px;
+td.tdColor{
+    background-color: #65140F;
+    color:white;
     text-align: center;
-    border-radius: 5px;
+}
+
+table.datosAuditoria{
+    width: 90%;
+    border: 1px solid #afafaf;
+}
+
+table.datosAuditoria td{
+    border: 1px solid #afafaf;
+    padding:5px;
 }

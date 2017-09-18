@@ -8,6 +8,7 @@ const confirmInsert=require('./../modals/insert')
 let confirm=new jqueryConfirm()
 let model= new models()
 let modalInsert= new confirmInsert()
+
 module.exports=class Insert{
 
 
@@ -114,7 +115,11 @@ module.exports=class Insert{
     chooseAuditoria(){
         $('button#modalAuditoria').click(function(e){
             e.preventDefault()
-
+            let template=require('./../templates/insert/Auditorias.html')
+            modalInsert.auditoria(template)
+           
         })
     }
+
+    
 }

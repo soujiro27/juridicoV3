@@ -38,7 +38,7 @@ $app->post('/insert/:modulo',function($modulo) use ($app){
     $controller = new Insert();
     $url= new urls();
     $modulo=$url->urlsTablas($modulo);
-    $controller->insertCatalogo($modulo,$app->request->post());
+    $controller->selectInsert($modulo,$app->request->post());
 });
 
 /*--------------obtiene un registro -------------------*/
@@ -66,7 +66,8 @@ $app->post('/update/:modulo',function($modulo) use ($app){
 /*-------------------obitene una auditoria por id -------------------------*/
 
 $app->get('/auditorias/:id',function($id) use ($app){
-        //something goes here 
+        $controller= new GetController();
+        $controller->getRegisterControllerAuditoriaById($id);
 });
 
 

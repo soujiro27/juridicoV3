@@ -19,7 +19,7 @@ module.exports=class SubTiposDocumentos{
  
  <div class="form-group send">
      <input type="submit" class="btn btn-primary btn-sm" value="Guardar">
-     <button class="btn btn-default btn-sm" id="cancelar">Cancelar</button>
+     <button class="btn btn-danger btn-sm" id="cancelar">Cancelar</button>
  </div>
  
  </form>`

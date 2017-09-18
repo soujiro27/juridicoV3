@@ -23,6 +23,10 @@ module.exports=class UpdateModals{
 
 
                     }
+                },
+                cancel:{
+                    text:'Cancelar',
+                    btnClass:'btn-danger',
                 }
             }
         })
@@ -54,6 +58,9 @@ module.exports=class UpdateModals{
 
 
                     }
+                },
+                cancel:{
+                    text:'Cancelar'
                 }
             }
         })

@@ -4,9 +4,17 @@
 include_once 'juridico/orm/consultas.php';
 include_once 'juridico/models/get.php';
 include_once 'juridico/models/insert.php';
+include_once 'juridico/controllers/get.php';
 
 class Insert extends Consultas{
     
+
+    public function selectInsert($modulo,$datos){
+        if($modulo=='Volantes'){$this->insertVolantes($modulo,$datos);}
+        else{$this->insertCatalogo($modulo,$datos);}
+    }
+
+
     public function insertCatalogo($modulo,$datos){
         if($this->validaDatos($datos)){
            $sql = $this->isExistRegister($modulo,$datos);
@@ -41,6 +49,16 @@ class Insert extends Consultas{
             return True;
         }else{
             return False;
+        }
+    }
+
+    public function insertVolantes($modulo,$datos){
+        $get = new GetController();
+        if($get->getRegisterControllerPhp($modulo,$datos)){
+
+        }else{
+            $get=array('Error' => 'Registro No Encontrado');
+            echo json_encode($get);
         }
     }
 }
