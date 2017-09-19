@@ -29,6 +29,19 @@ class InsertModel{
         }
     }
 
+    public function InsertPdoTrueFalse($sql,$pdo){
+        $db=$this->conecta();
+        try{
+            $dbQuery=$db->prepare($sql);
+            $pdo[':usrAlta']=$_SESSION ["idUsuario"];
+            $dbQuery->execute($pdo);
+           return True;
+        } catch(PDOException $e){
+            $errores=$dbQuery->errorInfo();     
+           return False;
+        }
+    }
+
 }
 
 

@@ -53,13 +53,78 @@ class Insert extends Consultas{
     }
 
     public function insertVolantes($modulo,$datos){
-        $get = new GetController();
-        if($get->getRegisterControllerPhp($modulo,$datos)){
+        $this->separaDatosVolantesDocumentos($datos);
+       if($this->validaAuditoria($datos)){
+            if($this->validaFolio($datos)){
+                $send=$this->separaDatosVolante($datos);
+                $sql = $this->insertQuery($modulo,$send);
+                $pdo = $this->buildArrayPdo($send);
+                $insert =  new InsertModel();
+                if($insert->InsertPdoTrueFalse($sql,$pdo)){
+                    $send=$this->separaDatosVolantesDocumentos($datos);
+                    $sql = $this->insertQuery('VolantesDocumentos',$send);
+                    $pdo = $this->buildArrayPdo($send);
+                    $insert->InsertPdo($sql,$pdo);
+                }
+            }
+        }
+        
+    }
 
-        }else{
-            $get=array('Error' => 'Registro No Encontrado');
+    public function validaAuditoria($datos){
+        $get = new GetController();
+        $send=array('idSubTipoDocumento'=>$datos['idSubTipoDocumento'], 'cveAuditoria'=>$datos['cveAuditoria'] );
+        $res=$get->getRegisterControllerPhp('VolantesDocumentos',$send);
+        if($res){return True;}else{
+            $get=array('Error' => 'La Auditoria ya se encuentras asignada a un Documento');
             echo json_encode($get);
         }
+    }
+
+    public function validaFolio($datos){
+        $get = new GetController();
+        $send=array('folio'=>$datos['folio'],'subFolio'=>$datos['subFolio'] );
+        $res=$get->getRegisterControllerPhp('Volantes',$send);
+        if($res){return True;}else{
+            $get=array('Error' => 'El Numero de Folio Y SubFolio ya se encuentra Asignado');
+            echo json_encode($get);
+        }
+    }
+    public function separaDatosVolante($datos){
+        $send=array(
+            'idTipoDocto' => $datos['idTipoDocto'],
+            'numDocumento' => $datos['numDocumento'],
+            'fDocumento' => $datos['fDocumento'],
+            'anexos' => $datos['anexos'],
+            'fRecepcion' => $datos['fRecepcion'],
+            'hRecepcion' => $datos['hRecepcion'],
+            'idRemitente' => $datos['idRemitente'],
+            'destinatario' => $datos['destinatario'],
+            'asunto' => $datos['asunto'],
+            'idCaracter' => $datos['idCaracter'],
+            'idTurnado' => $datos['idTurnado'],
+            'idAccion' => $datos['idAccion'],
+            'folio' => $datos['folio'],
+            'subFolio' => $datos['subFolio'],
+            'extemporaneo' => $datos['extemporaneo']
+
+        );
+        return $send;
+    }
+
+    public function separaDatosVolantesDocumentos($datos){
+        $get = new Get();
+        $sqlLastRegister=$this->getLastRegister('Volantes','idVolante','idVolante');
+        $idVolante=$get->consultaSimple($sqlLastRegister);
+        $idVolante=$idVolante[0]['idVolante'];
+       $send=array(
+            'idVolante' => $idVolante,
+            'promocion' => $datos['promocion'],
+            'cveAuditoria' => $datos['cveAuditoria'],
+            'idSubTipoDocumento' => $datos['idSubTipoDocumento'],
+            'notaConfronta' => $datos['notaConfronta']
+        );
+        return $send;
     }
 }
 

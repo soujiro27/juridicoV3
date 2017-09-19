@@ -63,6 +63,11 @@ class Consultas{
         return $sql;
     }
 
+    public function getLastRegister($tabla,$campo,$alias){
+        $sql="select MAX($campo) as $alias from sia_".$tabla;
+        return $sql;
+    }
+
 
 /*------------------Genera Query de insert ------------------*/
 
