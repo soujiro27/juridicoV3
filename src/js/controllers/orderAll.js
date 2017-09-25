@@ -10,6 +10,7 @@ module.exports=class order extends tabla{
      
         let self=this
         $('i#orderClick').click(function(){
+            $('div#panelOrdenamiento').slideDown('slow').css('display','flex')
             self.builFieldsOrder(ruta)
         })
     }
@@ -33,6 +34,7 @@ module.exports=class order extends tabla{
         }
         $('select#orderField').append(select)
         this.btnOrder(ruta)
+        this.btnCancel()
     }
 
     btnOrder(ruta){
@@ -45,10 +47,19 @@ module.exports=class order extends tabla{
                 let data={campo:campo,tipo:tipo}
                 get.getTableOrder(ruta,data)
                 .then(json=>{
+                    $('div#panelOrdenamiento').slideUp()
                     self.renderTable(ruta,json)
                 })
                 
             }
+        })
+    }
+
+
+    btnCancel(){
+
+        $('button#btnCancel').click(function(){
+            $('div#panelOrdenamiento').slideUp()
         })
     }
 

@@ -24,15 +24,16 @@ $main='
           		<div class="clearfix"></div>
 			</div>
 			<div id="panelOrdenamiento">
-				<select name="order" id="orderField">
-					<option value="0"> Escoga Campo </option>
+				<select name="order" id="orderField"  class="form-control">
+					<option value="0"> Escoja Campo </option>
 				</select>
-				<select name="typeOrder" id="typeOrder">
+				<select name="typeOrder" id="typeOrder"  class="form-control">
 					<option value="0"> Ordenar </option>
 					<option value="ASC"> Ascedente </option>
 					<option value="DESC"> Descendente </option>
 				</select>
-				<button class="btn" id="btnOrder">Ordenar</button>
+				<button class="btn btn-primary" id="btnOrder">Ordenar</button>
+				<button class="btn btn-danger" id="btnCancel">Cancelar</button>
 			</div>
 			<div class="widget-content" id="main-content">
 		</div>

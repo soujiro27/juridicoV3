@@ -97,3 +97,20 @@ table.datosAuditoria td{
     border: 1px solid #afafaf;
     padding:5px;
 }
+
+
+div#panelOrdenamiento{
+    display: none;
+    padding:5px;
+
+}
+
+
+div#panelOrdenamiento select{
+    width: 200px;
+    margin-right: 20px
+}
+
+div#panelOrdenamiento button{
+    margin-right: 10px;
+}

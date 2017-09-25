@@ -8,8 +8,21 @@ class TablasOrder{
    public function __construct($modulo,$campos){
      $campo=$campos['campo'];
      $tipo=$campos['tipo'];
-     $sql = $this->generateQueryOrm($modulo,$campo,$tipo);
-           
+     $catTablas= new CatTablas();
+     if($modulo=='CatCaracteres')
+     { $this->generateQueryOrm($modulo,$catTablas->Caracteres());}
+     elseif($modulo=='CatAcciones')
+     {$this->generateQueryOrm($modulo,$catTablas->Acciones());}
+     elseif ($modulo=='CatSubTiposDocumentos') { 
+      $this->generateQueryOrm($modulo,$catTablas->SubTiposDocumentos());
+     }elseif ($modulo=='CatDoctosTextos') {
+         $this->QuerySimple($catTablas->DoctosTexto());
+     }
+     elseif ($modulo=='Volantes') {
+
+      $sql=$this->andOrderAndTypeSql($catTablas->volantes(),$campo,$tipo);
+      $this->QuerySimple($sql);
+     }
    }
 
    public function generateQueryOrm($modulo,$campo,$tipo){
@@ -24,6 +37,11 @@ class TablasOrder{
         $model = new Get();   
         $res=$model->consultaSimple($sql);
         echo json_encode($res);
+   }
+
+   public function andOrderAndTypeSql($sql,$campo,$tipo){
+      $sql=$sql." ORDER BY '$campo' ".$tipo;
+      return $sql;
    }
 }
 
