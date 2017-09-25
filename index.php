@@ -6,6 +6,7 @@ $rutas= new Rutas();
 
 include_once $rutas->controllers('urls.php');
 include_once $rutas->controllers('tablas.php');
+include_once $rutas->controllers('tablasORder.php');
 include_once $rutas->controllers('insert.php');
 include_once $rutas->controllers('get.php');
 include_once $rutas->controllers('update.php');
@@ -29,6 +30,12 @@ $app->get('/table/:modulo',function($modulo) use ($app){
     $url= new urls();
     $modulo=$url->urlsTablas($modulo);
     $controller = new Tablas($modulo);
+});
+
+$app->get('/tableOrder/:modulo',function($modulo) use ($app){
+    $url= new urls();
+    $modulo=$url->urlsTablas($modulo);
+    $controller = new TablasOrder($modulo,$app->request->get());
 });
 
 

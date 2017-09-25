@@ -5,10 +5,13 @@ const $=require('jquery')
 const page=require('page')
 const menu = require('./js/menu/menu')
 const table=require('./js/controllers/tablas')
+const order = require('./js/controllers/orderAll')
 
 
-$tables= new table(ruta)
-
+$tables= new table()
+$tables.getDataTable(ruta)
+$order = new order()
+$order.getDataTableOrder(ruta)
 menu()
 
 

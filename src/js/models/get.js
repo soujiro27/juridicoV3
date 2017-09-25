@@ -13,6 +13,20 @@ module.exports=class Get {
         return get
     }
 
+    getTableOrder(ruta,campos){
+        let get= new Promise((resolve,reject)=>{
+            $.get({
+                url:'/tableOrder/'+ruta,
+                data:campos,
+                success:function(json){
+                    resolve(JSON.parse(json))
+                }
+            })
+        })
+
+        return get
+    }
+
     sendDataToInsert(ruta,datos){
         let insert=new Promise((resolve,reject)=>{
             $.post({

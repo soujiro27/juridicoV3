@@ -67,9 +67,9 @@ page('/juridico/SubTiposDocumentos/update/:campo/:id',function(ctx,next){
  page('/juridico/Volantes/update/:campo/:id',function(ctx,next){
     let data=updateController.creaObjeto(ctx)
     let volante=get.getRegister(ruta,data)
-    let caracter=get.getRegister('catCaracteres',{estatus:'ACTIVO'})
+    let caracter=get.getRegister('Caracteres',{estatus:'ACTIVO'})
 	let turnado=get.getRegister('areas',{idAreaSuperior:'DGAJ'})
-	let accion=get.getRegister('catAcciones',{estatus:'ACTIVO'})
+	let accion=get.getRegister('Acciones',{estatus:'ACTIVO'})
     Promise.all([volante,caracter,turnado,accion])
     .then(json=>{
         const getTemplate=require('./../templates/update/Volantes')

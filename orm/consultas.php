@@ -24,8 +24,8 @@ class Consultas{
 
     public function getAllOrder($tabla,$campos,$type){
         $sql=$this->getAll($tabla);
-        $orders=$this->buildFields($campos);
-        $sql=$sql.' order by '.$orders.' '.$type;
+        //$orders=$this->buildFields($campos);
+        $sql=$sql." order by '$campos' $type ";
         return $sql;
     }
 

@@ -9,7 +9,9 @@ include_once 'juridico/models/update.php';
 class UpdateController extends Consultas{
     
     public function updateCatalogo($modulo,$datos){
+
         if($this->validaDatos($datos)){
+
            $sql = $this->isExistRegister($modulo,$datos);
            if($sql){
                $where=$this->getDataWhereQuery($datos);
@@ -29,9 +31,12 @@ class UpdateController extends Consultas{
     public function validaDatos($datos){
         $cont=0;
         foreach($datos as $llave => $valor ){
-           if(empty($valor)){
-               return False;
-           }
+            if($llave != 'subFolio'){
+                if(empty($valor)){
+                    
+                    return False;
+                }
+            }
         }
         return True;
     }
@@ -60,6 +65,10 @@ class UpdateController extends Consultas{
         unset($datos[$llave]);
         return $datos;
     }
+
+    
+
+
 }
 
 

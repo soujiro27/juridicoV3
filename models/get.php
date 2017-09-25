@@ -17,6 +17,7 @@ class Get{
 
     public function consultaSimple($sql){
         $db=$this->conecta();
+        //echo $sql;
         $query=$db->prepare($sql);
         $query->execute();
         return $query->fetchAll(PDO::FETCH_ASSOC);
