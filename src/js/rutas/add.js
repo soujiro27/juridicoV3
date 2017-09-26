@@ -101,6 +101,7 @@ page('/juridico/Volantes/add',function(ctx,next){
         $('input.fechaInput').datepicker({ dateFormat: "yy-mm-dd" });
         let datosForm=insert.getDataForm(ruta,false)
         insert.btnCancelar(ruta)
+        insert.getUserDest(ruta)
     })
 
 })

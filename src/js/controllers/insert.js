@@ -21,7 +21,7 @@ module.exports=class Insert{
             if(validacion){
                 model.sendDataToInsert(ruta,datos)
                 .then(json=>{
-                    self.statusInsertRegister(json)
+                    self.statusInsertRegister(json,ruta)
                 })
             }
         })
@@ -42,13 +42,18 @@ module.exports=class Insert{
         }
     }
 
-    statusInsertRegister(json){
+    statusInsertRegister(json,ruta){
+        let self=this
         $.each(json,function(index,el){
             if(index==='Error'){
                 confirm.registerDuplicate(el)
             }else if(index==='Success'){
+                /*if(ruta=='Volantes'){
+                    
+
+                }*/
                 let drawTable= new table()
-                drawTable.renderTable(ruta)
+                //camdrawTable.renderTable(ruta)
             }
         })
     }
@@ -121,6 +126,45 @@ module.exports=class Insert{
            
         })
     }
+
+    getLastRegister(ruta,datos){
+        let last
+        model.getLastRegister(ruta,datos)
+        .then(json=>{
+            last=json[0].volante
+        })
+        return last
+    }
+
+    getUserVentanilla(ruta){
+        let user
+        model.getRegister(ruta,{recepcion:'SI'}).
+        then(json=>{
+            let rp=json.rpe
+            model.getRegister('usuarios',{idEmpleado:'rp'}).
+            then(res=>{
+                user=res.idUsuario
+            })
+        })
+        return user
+    }
+
+    getUserDest(ruta){
+        let idVolante=this.getLastRegister(ruta,{campo:'IdVolante',alias:'volante'})
+        console.log(idVolante)
+        model.getRegister('volantes',{idVolante:idVolante}).
+        then(json=>{
+            console.log(json)
+        })
+    }
+    
+    sendNotificacion(userDest,mensaje,auditoria,id){
+		$.get({
+			url:'/altanotifica/'+userDest+'|'+mensaje+'|'+id+'|'+auditoria+'|Volantes|idVolante'
+		})
+		//self.sendNotificacion(id,'Tienes un Nuevo Documento','0','0')
+	}
+    
 
     
 }

@@ -50,7 +50,7 @@ class urls{
     }
 
     public function urlsTablas($modulo){
-       
+      
        if($this->validaModulo($modulo)){
            return  $modulo=$this->addCat($modulo);
             

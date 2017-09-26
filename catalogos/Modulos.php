@@ -7,7 +7,9 @@ class Catalogos{
         'Documentos',
         'tiposDocumentos',
         'areas',
-        'auditorias'
+        'auditorias',
+        'PuestosJuridico',
+        'usuarios'
     ];
     private $catalogos=[
         'Caracteres',

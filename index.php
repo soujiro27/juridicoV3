@@ -60,6 +60,16 @@ $app->get('/getRegister/:modulo',function($modulo) use ($app){
 });
 
 
+$app->get('/getLastRegister/:modulo',function($modulo) use ($app){
+    $url= new urls();
+    $controller= new GetController();
+    $modulo=$url->urlsTablas($modulo);
+    $controller->getMaxQuery($modulo,$app->request->get());
+
+
+});
+
+
 /*---------------------carga los modulos del update ----------------------*/
 $app->post('/update/:modulo',function($modulo) use ($app){
   $controller= new UpdateController();

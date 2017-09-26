@@ -98,4 +98,18 @@ module.exports=class Get {
         })
         return get
     }
+
+    getLastRegister(ruta,datos){
+        let register= new Promise((resolve,reject)=>{
+            $.get({
+                url:'/getLastRegister/'+ruta,
+                data:datos,
+                success:function(json){
+                    let res=JSON.parse(json)
+                    resolve(res)
+                }
+            })
+        })
+        return register
+    }
 }

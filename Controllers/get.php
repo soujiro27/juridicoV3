@@ -53,6 +53,14 @@ class GetController extends Consultas{
         $res=$get->consultaSimple($sql);
         echo json_encode($res);
    }
+
+   public function getMaxQuery($ruta,$datos){
+       //var_dump($datos);
+       $get = new Get();
+       $sql=$this->getLastRegister($ruta,$datos['campo'],$datos['alias']);
+       $res=$get->consultaSimple($sql);
+       echo json_encode($res);
+   }
 }
 
 
