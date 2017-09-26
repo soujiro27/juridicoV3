@@ -64,6 +64,7 @@ class Insert extends Consultas{
                     $send=$this->separaDatosVolantesDocumentos($datos);
                     $sql = $this->insertQuery('VolantesDocumentos',$send);
                     $pdo = $this->buildArrayPdo($send);
+                    //notificacion
                     $insert->InsertPdo($sql,$pdo);
                 }
             }

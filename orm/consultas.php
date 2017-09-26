@@ -69,6 +69,15 @@ class Consultas{
     }
 
 
+    public function getAreasVolantesAsignados($idAuditoria,$tipo){
+        $sql="select v.idTurnado from sia_VolantesDocumentos vd 
+        left join sia_catSubTiposDocumentos sub on vd.idSubTipoDocumento=sub.idSubTipoDocumento
+        left join sia_Volantes v on vd.idVolante=v.idVolante
+        where cveAuditoria='$idAuditoria' and sub.nombre='$tipo'";
+        return $sql;
+    }
+
+
 /*------------------Genera Query de insert ------------------*/
 
     public function insertQuery($tabla,$datos){

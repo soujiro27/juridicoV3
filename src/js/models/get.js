@@ -81,4 +81,21 @@ module.exports=class Get {
         })
         return insert
     }
+
+    getAreaVolantesAsignados(idAuditoria,tipoDocumento){
+        let get = new Promise((resolve,rejec)=>{
+            $.get({
+                url:'/getAreaVolante/',
+                data:{
+                    cveAuditoria:idAuditoria,
+                    nombre:tipoDocumento
+                },
+                success:function(json){
+                    let res=JSON.parse(json)
+                    resolve(res)
+                }
+            })
+        })
+        return get
+    }
 }

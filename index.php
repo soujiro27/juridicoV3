@@ -78,4 +78,11 @@ $app->get('/auditorias/:id',function($id) use ($app){
 });
 
 
+/*---- obtiene las areas a las que se les asigno irac confronta ifa -------- */
+$app->get('/getAreaVolante/',function() use ($app){
+    $controller= new GetController();
+    $controller->getAreasVolantes($app->request->get());
+});
+
+
 ?>

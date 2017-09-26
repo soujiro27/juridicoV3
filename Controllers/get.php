@@ -44,6 +44,15 @@ class GetController extends Consultas{
             return False;
         }
     }
+
+    public function getAreasVolantes($datos){
+        $get = new Get();
+        $idAuditoria=$datos['cveAuditoria'];
+        $tipo=$datos['nombre'];
+        $sql=$this->getAreasVolantesAsignados($idAuditoria,$tipo);
+        $res=$get->consultaSimple($sql);
+        echo json_encode($res);
+   }
 }
 
 

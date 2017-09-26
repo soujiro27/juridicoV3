@@ -32,7 +32,7 @@ module.exports=class order extends tabla{
         for(let x in fields){
             select+=`<option value="${fields[x]}">${fields[x]}</option>`
         }
-        $('select#orderField').append(select)
+        $('select#orderField').html(select)
         this.btnOrder(ruta)
         this.btnCancel()
     }

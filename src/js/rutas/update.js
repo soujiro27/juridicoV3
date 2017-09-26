@@ -75,7 +75,7 @@ page('/juridico/SubTiposDocumentos/update/:campo/:id',function(ctx,next){
         const getTemplate=require('./../templates/update/Volantes')
         let template=new getTemplate()
         template=template.render(json[0],json[1],json[2],json[3])
-        modal.modalCatalogoCkeEditor(ruta,template,ctx.params.campo,ctx.params.id)
+        modal.modalPrint(ruta,template,ctx.params.campo,ctx.params.id)
        
     })
  })

@@ -67,6 +67,28 @@ module.exports=class InsertModals{
                             $('tr td#sujeto').html(json[0].sujeto)
                             $('tr td#tipo').html(json[0].tipo)
                        })
+                       .then(json=>{
+                           let irac=get.getAreaVolantesAsignados(idAuditoria,'IRAC')
+                           let confronta=get.getAreaVolantesAsignados(idAuditoria,'CONFRONTA')
+                           let ifa = get.getAreaVolantesAsignados(idAuditoria,'IFA')
+                           Promise.all([irac,confronta,ifa])
+                           .then(json=>{
+                               let campos=[]
+                               for(let x in json){
+                                   if(json[x].length>0){
+                                       campos.push(json[x]["0"].idTurnado)
+                                    }else{
+                                        campos.push('NO ASIGNADO')
+                                    }
+                                }
+                            console.log(campos)
+                              let template=require('./../templates/insert/areasVolantes.html')
+                              $('div#datosTurnado').html(template)
+                              $('tr td#irac').html(campos[0])
+                              $('tr td#confronta').html(campos[1])
+                              $('tr td#ifa').html(campos[2])
+                           })
+                       })
                     })
                 })
             },

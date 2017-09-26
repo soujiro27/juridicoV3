@@ -21,7 +21,7 @@ module.exports=class Insert{
             if(validacion){
                 model.sendDataToInsert(ruta,datos)
                 .then(json=>{
-                    self.statusInsertRegister(json,ruta)
+                    self.statusInsertRegister(json)
                 })
             }
         })
@@ -47,7 +47,8 @@ module.exports=class Insert{
             if(index==='Error'){
                 confirm.registerDuplicate(el)
             }else if(index==='Success'){
-                let drawTable= new table(ruta)
+                let drawTable= new table()
+                drawTable.renderTable(ruta)
             }
         })
     }
