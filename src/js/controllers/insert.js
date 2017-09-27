@@ -127,14 +127,6 @@ module.exports=class Insert{
         })
     }
 
-    getLastRegister(ruta,datos){
-        let last
-        model.getLastRegister(ruta,datos)
-        .then(json=>{
-            last=json[0].volante
-        })
-        return last
-    }
 
     getUserVentanilla(ruta){
         let user
@@ -150,13 +142,50 @@ module.exports=class Insert{
     }
 
     getUserDest(ruta){
-        let idVolante=this.getLastRegister(ruta,{campo:'IdVolante',alias:'volante'})
-        console.log(idVolante)
-        model.getRegister('volantes',{idVolante:idVolante}).
-        then(json=>{
-            console.log(json)
+        let lastIdVolante
+        let volante
+        let turnado
+        let rpe
+        let usuario
+        let idUsuario
+        let folio
+        let documento
+        model.getLastRegister(ruta,{campo:'IdVolante',alias:'volante'})
+        .then(json=>{
+            lastIdVolante=json["0"].volante
+            return lastIdVolante
         })
+        .then(lastIdVolante=>{
+            volante=model.getRegister('Volantes',{idVolante:lastIdVolante}).then(json=>{return json})
+            return volante
+        })
+        .then(volante=>{
+            turnado=volante["0"].idTurnado
+            folio=volante["0"].folio
+            documento=volante["0"].documento
+            return turnado
+        })
+        .then(turnado=>{
+            rpe=model.getRegister('PuestosJuridico',{idArea:turnado,titular:'SI'}).then(json=>{return json})
+            return rpe
+        })
+        .then(rpe=>{
+            usuario=model.getRegister('usuarios',{idEmpleado:rpe["0"].rpe}).then(json=>{return json})
+            return usuario
+        })
+        .then(usuario=>{
+            idUsuario=usuario["0"].idUsuario
+            console.log(folio)
+        })
+        
     }
+
+    /* select u.idUsuario,td.nombre,v.folio from sia_Volantes v 
+inner join sia_PuestosJuridico pj on v.idTurnado=pj.idArea
+inner join sia_VolantesDocumentos vd on v.idVolante=vd.idVolante
+inner join sia_usuarios u on pj.rpe=u.idEmpleado
+inner join sia_catSubTiposDocumentos td on vd.idSubTipoDocumento=td.idSubTipoDocumento
+where v.idVolante='4222' and pj.idArea=v.idTurnado and pj.titular='SI'*/
     
     sendNotificacion(userDest,mensaje,auditoria,id){
 		$.get({
