@@ -17,16 +17,38 @@ div.jconfirm-box-container{
 }
 
 
-td#idCaracter,td#idAccion{
+td#idCaracter,
+td#idAccion, 
+td#idVolante,
+td#idObservacionDoctoJuridico,
+td#idSubTipoDocumento,
+td#cveAuditoria,
+td#usrAlta,
+td#fAlta,
+td#usrModificacion,
+td#fModificacion{
     display: none;
 }
-th#idCaracter,th#idAccion{
+th#idCaracter,th#idAccion, 
+th#idVolante,
+th#idObservacionDoctoJuridico,
+th#idSubTipoDocumento,
+th#cveAuditoria,
+th#usrAlta,
+th#fAlta,
+th#usrModificacion,
+th#fModificacion
+{
     display: none;
 }
 
 th{
     background-color: #65140F;
     color:white;
+}
+
+table tr{
+    cursor: pointer
 }
 
 form{
@@ -116,4 +138,14 @@ div#panelOrdenamiento select{
 
 div#panelOrdenamiento button{
     margin-right: 10px;
+}
+
+
+table#ObservacionesIrac{
+    width: 90% !important;
+    margin:auto;
+}
+
+div.IracObservacionesContent div.buttonsIrac{
+    margin-top:40px
 }

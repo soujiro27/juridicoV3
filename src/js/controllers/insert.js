@@ -139,7 +139,7 @@ module.exports=class Insert{
             model.getDataNotification(lastIdVolante).
             then(json=>{
                 let mensaje=`Tienes un Nuevo Documento: ${json["0"].nombre} con el Folio:  ${json["0"].folio}`
-                this.sendNotificacion(json["0"].idUsuario,mensaje,json["0"].folio,'ASCM',ruta)
+                this.sendNotificacion(json["0"].idUsuario,mensaje,json["0"].folio,0,ruta)
             })
             
         })

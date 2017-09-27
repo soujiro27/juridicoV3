@@ -23,7 +23,7 @@ module.exports=class UpdateController{
         if(valida){
             let datos=$('form#'+ruta).serialize()+'&'+campo+'='+id
             get.sendDataToUpdate(ruta,datos).then(json=>{
-                self.statusInsertRegister(json,ruta)
+                self.statusInsertRegister(json,ruta,id)
                 
             })
         }
@@ -42,17 +42,45 @@ module.exports=class UpdateController{
         }
     }
 
-    statusInsertRegister(json){
+    statusInsertRegister(json,ruta,id){
+        let self=this
         $.each(json,function(index,el){
             if(index==='Error'){
                 confirm.registerDuplicate(el)
             }else if(index==='Success'){
+                if(ruta=='Volantes'){
+                    self.sendNotificacionUpdate(ruta,id)
+                }
                 let drawTable= new table()
                 drawTable.getDataTable(ruta)
             }
         })
     }
 
+
+    sendNotificacionUpdate(ruta,id){
+        let self=this
+        let lastIdVolante
+        lastIdVolante={idVolante:id}
+        get.getDataNotification(lastIdVolante).
+        then(json=>{
+            let mensaje=`Tienes un Nuevo Documento: ${json["0"].nombre} con el Folio:  ${json["0"].folio}`
+            this.sendNotificacion(json["0"].idUsuario,mensaje,json["0"].folio,0,ruta)
+        })
+            
+    
+       
+        
+    }
+
+   
+    
+    sendNotificacion(userDest,mensaje,id,auditoria,ruta){
+		$.get({
+            url:'/altanotifica/'+userDest+'|'+mensaje+'|'+id+'|'+auditoria+'|Volantes|idVolante'
+		})
+		
+	}
 
     
 

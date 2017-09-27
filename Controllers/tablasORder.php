@@ -19,7 +19,6 @@ class TablasOrder{
          $this->QuerySimple($catTablas->DoctosTexto());
      }
      elseif ($modulo=='Volantes') {
-
       $sql=$this->andOrderAndTypeSql($catTablas->volantes(),$campo,$tipo);
       $this->QuerySimple($sql);
      }

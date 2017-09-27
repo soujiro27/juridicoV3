@@ -19,6 +19,9 @@ class Tablas{
        elseif ($modulo=='Volantes') {
         $this->QuerySimple($catTablas->volantes());
        }
+       elseif ($modulo=='Irac') {
+           $this->QuerySimple($catTablas->irac());
+       }
            
    }
 

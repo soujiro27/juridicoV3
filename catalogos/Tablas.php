@@ -44,8 +44,6 @@ class CatTablas{
     inner join sia_catSubTiposDocumentos sub on vd.idSubTipoDocumento=sub.idSubTipoDocumento';
 
 
-
-
     public function Caracteres(){
         return $this->Caracteres;
     }
@@ -67,7 +65,16 @@ class CatTablas{
     }
 
    
-
+    public function irac(){
+        $irac="select v.idVolante,v.folio,v.numDocumento, v.fRecepcion, v.idRemitente, v.asunto, v.estatus, t.estadoProceso from sia_Volantes v
+        inner join sia_VolantesDocumentos vd on v.idVolante=vd.idVolante
+        inner join sia_catSubTiposDocumentos sub on vd.idSubTipoDocumento=sub.idSubTipoDocumento
+        inner join sia_turnosJuridico t on v.idVolante=t.idVolante
+        where sub.nombre='IRAC' and v.idTurnado=
+        (select nombreCorto from sia_areas where idAreaSuperior='DGAJ' and idEmpleadoTitular=
+        (select idEmpleado from sia_usuarios where idUsuario='".$_SESSION ['idUsuario']."'))";
+        return $irac;
+    }
 
 }
 
