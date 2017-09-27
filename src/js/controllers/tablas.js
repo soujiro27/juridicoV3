@@ -21,6 +21,7 @@ module.exports=class Tablas {
     render=template.renderTabla(ruta,json)
     $('div#main-content').html(render)
     this.getIdTr(ruta)
+    $('a#agregar').show()
   }
 
   getIdTr(ruta)

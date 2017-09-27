@@ -78,6 +78,17 @@ class Consultas{
     }
 
 
+    public function notification($idVolante){
+        $sql="select u.idUsuario,td.nombre,v.folio from sia_Volantes v 
+        inner join sia_PuestosJuridico pj on v.idTurnado=pj.idArea
+        inner join sia_VolantesDocumentos vd on v.idVolante=vd.idVolante
+        inner join sia_usuarios u on pj.rpe=u.idEmpleado
+        inner join sia_catSubTiposDocumentos td on vd.idSubTipoDocumento=td.idSubTipoDocumento
+        where v.idVolante='$idVolante' and pj.idArea=v.idTurnado and pj.titular='SI'";
+        return $sql;
+    }
+
+
 /*------------------Genera Query de insert ------------------*/
 
     public function insertQuery($tabla,$datos){

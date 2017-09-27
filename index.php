@@ -65,6 +65,11 @@ $app->get('/getLastRegister/:modulo',function($modulo) use ($app){
     $controller= new GetController();
     $modulo=$url->urlsTablas($modulo);
     $controller->getMaxQuery($modulo,$app->request->get());
+});
+
+$app->get('/getDataNotification',function() use ($app){
+    $controller= new GetController();
+    $controller->getNotificationData($app->request->get());
 
 
 });

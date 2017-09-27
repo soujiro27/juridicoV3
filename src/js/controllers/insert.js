@@ -48,12 +48,12 @@ module.exports=class Insert{
             if(index==='Error'){
                 confirm.registerDuplicate(el)
             }else if(index==='Success'){
-                /*if(ruta=='Volantes'){
-                    
-
-                }*/
+                if(ruta=='Volantes'){
+                    self.sendNotificacionInsert('Volantes')
+                }
+                console.log(ruta)
                 let drawTable= new table()
-                //camdrawTable.renderTable(ruta)
+                drawTable.getDataTable(ruta)
             }
         })
     }
@@ -128,70 +128,32 @@ module.exports=class Insert{
     }
 
 
-    getUserVentanilla(ruta){
-        let user
-        model.getRegister(ruta,{recepcion:'SI'}).
-        then(json=>{
-            let rp=json.rpe
-            model.getRegister('usuarios',{idEmpleado:'rp'}).
-            then(res=>{
-                user=res.idUsuario
-            })
-        })
-        return user
-    }
+  
 
-    getUserDest(ruta){
+    sendNotificacionInsert(ruta){
+        let self=this
         let lastIdVolante
-        let volante
-        let turnado
-        let rpe
-        let usuario
-        let idUsuario
-        let folio
-        let documento
         model.getLastRegister(ruta,{campo:'IdVolante',alias:'volante'})
         .then(json=>{
-            lastIdVolante=json["0"].volante
-            return lastIdVolante
+            lastIdVolante={idVolante:json["0"].volante}
+            model.getDataNotification(lastIdVolante).
+            then(json=>{
+                let mensaje=`Tienes un Nuevo Documento: ${json["0"].nombre} con el Folio:  ${json["0"].folio}`
+                this.sendNotificacion(json["0"].idUsuario,mensaje,json["0"].folio,'ASCM',ruta)
+            })
+            
         })
-        .then(lastIdVolante=>{
-            volante=model.getRegister('Volantes',{idVolante:lastIdVolante}).then(json=>{return json})
-            return volante
-        })
-        .then(volante=>{
-            turnado=volante["0"].idTurnado
-            folio=volante["0"].folio
-            documento=volante["0"].documento
-            return turnado
-        })
-        .then(turnado=>{
-            rpe=model.getRegister('PuestosJuridico',{idArea:turnado,titular:'SI'}).then(json=>{return json})
-            return rpe
-        })
-        .then(rpe=>{
-            usuario=model.getRegister('usuarios',{idEmpleado:rpe["0"].rpe}).then(json=>{return json})
-            return usuario
-        })
-        .then(usuario=>{
-            idUsuario=usuario["0"].idUsuario
-            console.log(folio)
-        })
+       
         
     }
 
-    /* select u.idUsuario,td.nombre,v.folio from sia_Volantes v 
-inner join sia_PuestosJuridico pj on v.idTurnado=pj.idArea
-inner join sia_VolantesDocumentos vd on v.idVolante=vd.idVolante
-inner join sia_usuarios u on pj.rpe=u.idEmpleado
-inner join sia_catSubTiposDocumentos td on vd.idSubTipoDocumento=td.idSubTipoDocumento
-where v.idVolante='4222' and pj.idArea=v.idTurnado and pj.titular='SI'*/
+   
     
-    sendNotificacion(userDest,mensaje,auditoria,id){
+    sendNotificacion(userDest,mensaje,id,auditoria,ruta){
 		$.get({
-			url:'/altanotifica/'+userDest+'|'+mensaje+'|'+id+'|'+auditoria+'|Volantes|idVolante'
+            url:'/altanotifica/'+userDest+'|'+mensaje+'|'+id+'|'+auditoria+'|Volantes|idVolante'
 		})
-		//self.sendNotificacion(id,'Tienes un Nuevo Documento','0','0')
+		
 	}
     
 

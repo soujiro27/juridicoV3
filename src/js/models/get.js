@@ -112,4 +112,18 @@ module.exports=class Get {
         })
         return register
     }
+
+    getDataNotification(datos){
+        let register= new Promise((resolve,reject)=>{
+            $.get({
+                url:'/getDataNotification',
+                data:datos,
+                success:function(json){
+                    let res=JSON.parse(json)
+                    resolve(res)
+                }
+            })
+        })
+        return register
+    }
 }

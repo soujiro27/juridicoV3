@@ -47,7 +47,9 @@ module.exports=class UpdateController{
             if(index==='Error'){
                 confirm.registerDuplicate(el)
             }else if(index==='Success'){
-                let drawTable= new table(ruta)}
+                let drawTable= new table()
+                drawTable.getDataTable(ruta)
+            }
         })
     }
 

@@ -61,6 +61,14 @@ class GetController extends Consultas{
        $res=$get->consultaSimple($sql);
        echo json_encode($res);
    }
+
+   public function getNotificationData($data){
+       $idVolante=$data['idVolante'];
+       $sql=$this->notification($idVolante);
+       $get = new Get();
+       $res=$get->consultaSimple($sql);
+       echo json_encode($res);
+   }
 }
 
 
