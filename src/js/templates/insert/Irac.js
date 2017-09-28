@@ -1,23 +1,24 @@
 const obt=require('./../../models/get')
 let get= new obt
 module.exports=class{
+    incio(id,data){
+      
+        if(data.Error=='Registro No Encontrado'){
+            let empty=this.vacio()
+            return empty
+        }else{
+            let template=this.render(id,data)
+            return template
+        }
+    }
     render(id,data){
         let header=this.headers(data)
         let body=this.body(data)
         let el=`
-            <div class="IracObservacionesContent">
-                <h2>Lista de Obervaciones IRAC</h2>
                 <table class="table table-striped table-bordered table-hover" id="ObservacionesIrac">
                     <thead>${header}</thead>
                     <tbody>${body}</tbody>
-                </table>
-                <div class="buttonsIrac">
-                    <button class="btn btn-primary">Agregar Obervacion</button>
-                    <button class="btn btn-warning">General Cedula</button>
-                    <button class="btn btn-danger">Cancelar</button>
-                </div>
-            </div>
-        `
+                </table> `
         return el
         
     }
@@ -33,12 +34,18 @@ module.exports=class{
     body(data){
         let body=''
         for(let x in data){
-            body+=`<tr>`
+            body+=`<tr data-id="${data[x].idObservacionDoctoJuridico}">`
             $.each(data[x],function(index,el){
                 body+=`<td id="${index}">${el}</td>`
             })
             body+=`</tr>`
         }
         return body
+    }
+
+    vacio(){
+        let el=`  <table class="table table-striped table-bordered table-hover" id="ObservacionesIrac">
+        <thead><tr><th>No hay Obervaciones</th></thead></table>`
+        return el
     }
 }

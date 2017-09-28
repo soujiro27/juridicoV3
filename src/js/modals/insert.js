@@ -108,6 +108,9 @@ module.exports=class InsertModals{
         })
     }
 
+
+    
+
     separaDatosAuditoria(datos){
         let arreglo=datos.split(',')
         let p=''

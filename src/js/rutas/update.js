@@ -83,12 +83,15 @@ page('/juridico/SubTiposDocumentos/update/:campo/:id',function(ctx,next){
 
  page('/juridico/Irac/update/:campo/:id',function(ctx,next){
     //let data=updateController.creaObjeto(ctx)
-    let id=ctx.params.id
-    get.getRegister('ObservacionesDoctosJuridico',{idVolante:id})
+    let idVolante=ctx.params.id
+    let observaciones=get.getRegister('ObservacionesDoctosJuridico',{idVolante:idVolante})
+    let volantesDoc=get.getRegister('VolantesDocumentos',{idVolante:idVolante})
+    Promise.all([observaciones,volantesDoc])
     .then(json=>{
+        
         const getMainTemplate=require('./../templates/insert/Irac')
         let template= new getMainTemplate()
-        let el=template.render(id,json)
-        $('div#main-content').html(el)
+        let el=template.incio(idVolante,json[0])
+        modal.iracObservaciones(el,idVolante,json[1]["0"].cveAuditoria,json[1]["0"].idSubTipoDocumento)
     })
 })

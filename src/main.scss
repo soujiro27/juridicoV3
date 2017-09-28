@@ -141,11 +141,12 @@ div#panelOrdenamiento button{
 }
 
 
-table#ObservacionesIrac{
-    width: 90% !important;
-    margin:auto;
-}
+
 
 div.IracObservacionesContent div.buttonsIrac{
     margin-top:40px
+}
+
+.jconfirm{
+    z-index:9998 !important ;
 }

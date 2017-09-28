@@ -18,6 +18,10 @@ module.exports=class Insert{
             e.preventDefault()
             let datos=$(this).serializeArray()
             let validacion=self.validaDatosForm(datos,valida)
+            if(ruta=='DocumentosSiglas'){
+                let data=self.puestos(datos)
+                datos=data
+            }
             if(validacion){
                 model.sendDataToInsert(ruta,datos)
                 .then(json=>{
@@ -51,7 +55,9 @@ module.exports=class Insert{
                 if(ruta=='Volantes'){
                     self.sendNotificacionInsert('Volantes')
                 }
-                console.log(ruta)
+                else if(ruta=='ObservacionesDoctosJuridico' || ruta=='DocumentosSiglas'){
+                    ruta='Irac'
+                }
                 let drawTable= new table()
                 drawTable.getDataTable(ruta)
             }
@@ -154,7 +160,22 @@ module.exports=class Insert{
             url:'/altanotifica/'+userDest+'|'+mensaje+'|'+id+'|'+auditoria+'|Volantes|idVolante'
 		})
 		
-	}
+    }
+    
+    puestos(data){
+        console.log(data)
+        let firmas=''
+        let datos=[]
+        for(let x in data){
+           if(data[x].name=='firma'){
+               firmas+=`${data[x].value},`
+            }else{
+                datos.push({name:data[x].name,value:data[x].value})
+            }
+        }
+        datos.push({name:'idPuestosJuridico',value:firmas})        
+       return datos
+    }
     
 
     
