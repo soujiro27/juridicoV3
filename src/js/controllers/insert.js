@@ -50,7 +50,7 @@ module.exports=class Insert{
             }else if(index==='Success'){
                 if(ruta=='Volantes'){
                     self.sendNotificacionInsert('Volantes')
-                }
+                }else if(ruta=='ObservacionesDoctosJuridico'){ruta='Irac'}
                 console.log(ruta)
                 let drawTable= new table()
                 drawTable.getDataTable(ruta)

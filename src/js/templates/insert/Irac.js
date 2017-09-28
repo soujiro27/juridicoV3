@@ -5,18 +5,10 @@ module.exports=class{
         let header=this.headers(data)
         let body=this.body(data)
         let el=`
-            <div class="IracObservacionesContent">
-                <h2>Lista de Obervaciones IRAC</h2>
                 <table class="table table-striped table-bordered table-hover" id="ObservacionesIrac">
                     <thead>${header}</thead>
                     <tbody>${body}</tbody>
                 </table>
-                <div class="buttonsIrac">
-                    <button class="btn btn-primary">Agregar Obervacion</button>
-                    <button class="btn btn-warning">General Cedula</button>
-                    <button class="btn btn-danger">Cancelar</button>
-                </div>
-            </div>
         `
         return el
         

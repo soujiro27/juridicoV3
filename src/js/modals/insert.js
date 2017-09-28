@@ -1,10 +1,16 @@
 const $=require('jquery')
 require('jquery-ui')
+require('ckeditor')
 const confirm=require('jquery-confirm')
 const models=require('./../models/get')
+const addIrac=require('./../templates/insert/addObervacionIrac')
+const cedulaIrac=require('./../templates/insert/cedulaIrac')
+
+
 
 let get=new models()
-
+let template=new addIrac()
+let iracCedula= new cedulaIrac()
 
 module.exports=class InsertModals{
 
@@ -108,6 +114,45 @@ module.exports=class InsertModals{
         })
     }
 
+    iracObservaciones(content,id,sub,cve,cedula){
+        let self=this
+        $.confirm({
+            title:'Observaciones Irac',
+            content:content,
+            theme:'light',
+            buttons:{
+                confirm:{
+                    text :'Agregar',
+                    action:function(){
+                        let el=template.render(id,sub,cve)
+                        $('div#main-content').html(el)
+                        self.btnCancelar('Irac')
+                        let insertController=require('./../controllers/insert')
+                        let insert= new insertController()
+                        CKEDITOR.disableAutoInline = true;
+                        let editor=CKEDITOR.inline('observacion');
+                        editor.on('change',function(e){
+                            $('textarea#observacion').text(editor.getData())
+                        })
+                        insert.getDataForm('ObservacionesDoctosJuridico')
+                    },
+                    btnClass:'btn-primary'
+                },
+                cancel:{
+                    text:'Cancelar'
+                },
+                somethingElse:{
+                    text:'General Cedula',
+                    action:function(){
+                       iracCedula.inicio(cedula,id,sub)
+                    },
+                    btnClass:'btn-danger'
+                }
+            }
+        })
+    }
+
+
     separaDatosAuditoria(datos){
         let arreglo=datos.split(',')
         let p=''
@@ -115,6 +160,14 @@ module.exports=class InsertModals{
             p+=`<p>${arreglo[x]}</p>`
         }
         return p
+    }
+
+    btnCancelar(ruta){
+       
+        $('button#cancelar').click(function(event){
+            event.preventDefault()
+            location.href='/juridico/'+ruta
+        })
     }
     
 }

@@ -3,10 +3,15 @@ const $=require('jquery')
 const controller=require('./../controllers/update')
 const model=require('./../models/get')
 const modals=require('./../modals/update')
+const modalInsert=require('./../modals/insert')
+const ins=require('./../controllers/insert')
+
 
 const updateController= new controller()
 const get = new model()
 const modal= new modals()
+const insertModal=new modalInsert()
+const insert=new ins()
 
 page('/juridico/Caracteres/update/:campo/:id',function(ctx,next){
    let data=updateController.creaObjeto(ctx)
@@ -82,13 +87,23 @@ page('/juridico/SubTiposDocumentos/update/:campo/:id',function(ctx,next){
 
 
  page('/juridico/Irac/update/:campo/:id',function(ctx,next){
-    //let data=updateController.creaObjeto(ctx)
     let id=ctx.params.id
-    get.getRegister('ObservacionesDoctosJuridico',{idVolante:id})
-    .then(json=>{
-        const getMainTemplate=require('./../templates/insert/Irac')
-        let template= new getMainTemplate()
-        let el=template.render(id,json)
-        $('div#main-content').html(el)
+    let observaciones=get.getRegister('ObservacionesDoctosJuridico',{idVolante:id})
+    let subtipo=get.getRegister('VolantesDocumentos',{idVolante:id})
+    let cedula=get.getRegister('DocumentosSiglas',{idVolante:id})
+    let volante=get.getRegister('Volantes',{idVolante:id})
+    get.getRegister('usuarios',{idUsuario:nUsr})
+    .then(res=>{
+        let idArea=res["0"].idArea
+        let empleados=get.getRegister('PuestosJuridico',{idArea:idArea,titular:'NO'}) 
+        Promise.all([observaciones,subtipo,cedula,volante,empleados])
+        .then(json=>{
+            const getMainTemplate=require('./../templates/insert/Irac')
+            let template= new getMainTemplate()
+            let el=template.render(id,json[0])
+            insertModal.iracObservaciones(el,id,json[1]["0"].idSubTipoDocumento,json[1]["0"].cveAuditoria,json[2])
+            
+        })
     })
+   
 })
