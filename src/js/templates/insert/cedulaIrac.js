@@ -120,6 +120,7 @@ module.exports=class cedulaIrac{
                     break
                 }else{
                     check+=`<label><input name="firma" type="checkbox" value="${puestos[x].idPuestoJuridico}">${puestos[x].paterno} ${puestos[x].materno} ${puestos[x].nombre}</label>`
+                    break
                 }
             }
             console.log(check)
