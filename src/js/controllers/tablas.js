@@ -7,18 +7,19 @@ const table = require ('./../templates/table')
 
 
 module.exports=class Tablas {
-    getDataTable (ruta) {
-        let self=this
+  getDataTable (ruta) {
+    let self=this
         let res = get.getTable(ruta)
         res.then(json=>{
-            template= new table();
+           
             self.renderTable(ruta,json)
     })
   }
 
 
   renderTable(ruta,json){
-    render=template.renderTabla(ruta,json)
+    let template= new table();
+    let render=template.renderTabla(ruta,json)
     $('div#main-content').html(render)
     this.getIdTr(ruta)
     $('a#agregar').show()

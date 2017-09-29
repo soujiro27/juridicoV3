@@ -87,7 +87,6 @@ page('/juridico/SubTiposDocumentos/update/:campo/:id',function(ctx,next){
 
 
  page('/juridico/Irac/update/:campo/:id',function(ctx,next){
-    //let data=updateController.creaObjeto(ctx)
     let idVolante=ctx.params.id
     let observaciones=get.getRegister('ObservacionesDoctosJuridico',{idVolante:idVolante})
     let volantesDoc=get.getRegister('VolantesDocumentos',{idVolante:idVolante})
@@ -104,7 +103,6 @@ page('/juridico/SubTiposDocumentos/update/:campo/:id',function(ctx,next){
 
 
 page('/juridico/confrontasJuridico/update/:campo/:id',function(ctx,next){
-    //let data=updateController.creaObjeto(ctx)
     let idVolante=ctx.params.id
    get.getRegister('ConfrontasJuridico',{idVolante:idVolante})
    .then(res=>{
@@ -137,6 +135,22 @@ page('/juridico/confrontasJuridico/update/:campo/:id',function(ctx,next){
        }
    }) 
 
-       
     
+})
+
+
+
+page('/juridico/Ifa/update/:campo/:id',function(ctx,next){
+    let idVolante=ctx.params.id
+    let observaciones=get.getRegister('ObservacionesDoctosJuridico',{idVolante:idVolante})
+    let volantesDoc=get.getRegister('VolantesDocumentos',{idVolante:idVolante})
+    Promise.all([observaciones,volantesDoc])
+    .then(json=>{
+        
+        const getMainTemplate=require('./../templates/insert/Irac')
+        let template= new getMainTemplate()
+        let el=template.incio(idVolante,json[0])
+        modal.ifaObservaciones(el,idVolante,json[1]["0"].cveAuditoria,json[1]["0"].idSubTipoDocumento)
+    })
+   
 })

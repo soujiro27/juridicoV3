@@ -24,7 +24,10 @@ class Tablas{
        }
        elseif ($modulo=='confrontasJuridico') {
         $this->QuerySimple($catTablas->confronta());
-    }
+        }
+        elseif ($modulo=='Ifa') {
+            $this->QuerySimple($catTablas->Ifa());
+        }
            
    }
 

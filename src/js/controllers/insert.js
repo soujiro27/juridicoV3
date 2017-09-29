@@ -56,7 +56,7 @@ module.exports=class Insert{
                     self.sendNotificacionInsert('Volantes')
                 }
                 else if(ruta=='ObservacionesDoctosJuridico' || ruta=='DocumentosSiglas'){
-                    ruta='Irac'
+                    ruta=localStorage.getItem("ruta");
                 }
                 let drawTable= new table()
                 drawTable.getDataTable(ruta)

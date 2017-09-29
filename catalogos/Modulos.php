@@ -15,7 +15,8 @@ class Catalogos{
         'VolantesDocumentos',
         'DocumentosSiglas',
         'confrontasJuridico',
-        'ConfrontasJuridico'
+        'ConfrontasJuridico',
+        'Ifa'
     ];
     private $catalogos=[
         'Caracteres',

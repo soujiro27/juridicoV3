@@ -1,3 +1,4 @@
+require('babelify-es6-polyfill')
 require('./main.scss')
 require('./js/rutas/add')
 require('./js/rutas/update')
@@ -8,9 +9,9 @@ const table=require('./js/controllers/tablas')
 const order = require('./js/controllers/orderAll')
 
 
-$tables= new table()
+let $tables= new table()
 $tables.getDataTable(ruta)
-$order = new order()
+let $order = new order()
 $order.getDataTableOrder(ruta)
 menu()
 

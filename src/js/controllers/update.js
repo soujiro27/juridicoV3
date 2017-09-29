@@ -96,7 +96,7 @@ module.exports=class UpdateController{
                 if(ruta=='Volantes'){
                     self.sendNotificacionUpdate(ruta,id)
                 } else if(ruta=='ObservacionesDoctosJuridico' || ruta=='DocumentosSiglas'){
-                    ruta='Irac'
+                    ruta=localStorage.getItem("ruta");
                 }
                 let drawTable= new table()
                 drawTable.getDataTable(ruta)
