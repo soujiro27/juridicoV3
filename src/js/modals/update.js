@@ -159,17 +159,38 @@ module.exports=class UpdateModals{
                          let puestos=get.getRegister('PuestosJuridico',{idArea:area,titular:'NO'})
                          Promise.all([docSiglas,subTipo,puestos])
                          .then(json=>{
-                             //console.log(json)
+                           
                             let el= cedulaIrac.inicio(json[0],idVolante,json[1],json[2])
                             $('div#main-content').html(el)
                             $('input.fechaInput').datepicker({ dateFormat: "yy-mm-dd" });
-                            insertController.getDataForm('DocumentosSiglas')
+                            if(json[0].Error=='Registro No Encontrado'){
+                               
+                                insertController.getDataForm('DocumentosSiglas')
+                            }else{
+                                
+                                updateController.getDataFormSiglas('DocumentosSiglas',false,'idDocumentoSiglas',json["0"]["0"].idDocumentoSiglas)
+                            }
+                            insertController.btnCancelar('Irac')
                         })
 
                      })
                          
                     },
                     btnClass:'btn-warning'
+                },
+                print:{
+                    text:'Imprimir Cedula',
+                    btnClass:'btn-warning',
+                    action:function(){
+                        get.getRegister('DocumentosSiglas',{idVolante:idVolante})
+                        .then(json=>{
+                            if(json.Error=='Registro No Encontrado'){
+                               self.msgError('Genere La Cedula Primero')
+                            }else{
+                                window.open('/juridico/reportes/IRAC.php'+'?param1='+idVolante)
+                            }
+                        })
+                    }
                 }
             },
             onContentReady:function(){
@@ -215,6 +236,51 @@ module.exports=class UpdateModals{
                 })
             },
             draggable: true
+        })
+    }
+
+
+    msgError(msg){
+        $.alert({
+            title:'Error',
+            content:msg,
+            theme:'light'
+        })
+    }
+
+    confronta(ruta,template,campo,id,nota,idVolante){
+        $.confirm({
+            title:'Actualizar Registro',
+            theme:'material',
+            content:template,
+            buttons:{
+                formSubmit:{
+                    text:'Actualizar',
+                    btnClass:'btn-blue',
+                    action:function(e){
+                       updateController.getDataForm(ruta,campo,id)
+
+
+                    }
+                },
+                cancel:{
+                    text:'Cancelar',
+                    btnClass:'btn-danger',
+                },
+                print:{
+                    text:'Imprimir Cedula',
+                    btnClass:'btn-warning',
+                    action:function(){
+                        window.open('/juridico/reportes/Confronta.php'+'?param1='+idVolante)
+                    }
+                }
+            },
+            onOpenBefore:function(){
+                $('input.fechaInput').datepicker({ dateFormat: "yy-mm-dd" });
+                if(nota===null){
+                    $('div.notaInformativa').remove()
+                }
+            }
         })
     }
 }

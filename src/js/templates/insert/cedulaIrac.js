@@ -8,8 +8,8 @@ module.exports=class cedulaIrac{
             let template=this.nuevaCedula(idVolante,sub,check)
             return template
         }else{
-                this.checkUpdate(data,puestos)
-                let template=this.updateCedula(data,puestos)
+                let check=this.checkUpdate(data,puestos)
+                let template=this.updateCedula(data,check)
                 return template
         }
     }
@@ -54,7 +54,7 @@ module.exports=class cedulaIrac{
         return el
     }
 
-    updateCedula(data){
+    updateCedula(data,check){
         let el=`<div class="contentIrac" id="DocumentosSiglas" >
         <form method="POST" class="form-inline" id="DocumentosSiglas">
         
@@ -67,7 +67,7 @@ module.exports=class cedulaIrac{
         
         <div class="form-group firmas">
         <label for="firmas">Personal que Firma</label>
-            
+            ${check}
         </div>
         
         
@@ -80,6 +80,7 @@ module.exports=class cedulaIrac{
         <div class="form-group numFolio">
         <label for="numFolio">Numero Folio</label>
         <input type="text"  id="numFolio" name="numFolio" required class="form-control"  value="${data["0"].numFolio}" >
+        
     </div>
 
         <div class="form-group send">
@@ -90,6 +91,8 @@ module.exports=class cedulaIrac{
         
         </form>
         </div>`
+        //<input type="hidden"  name="idDocumentoSiglas" id="idDocumentoSiglas" value="${data["0"].idDocumentoSiglas}"  >
+        
         return el
     }
 
@@ -115,15 +118,18 @@ module.exports=class cedulaIrac{
 
         for(let x in puestos){
             for(let z in res){
+                console.log(`comparo ${puestos[x].idPuestoJuridico} con => ${res[z]}`)  
                 if(puestos[x].idPuestoJuridico==res[z]){
-                    check+=`<label><input name="firma" type="checkbox" value="${puestos[x].idPuestoJuridico}" checked>${puestos[x].paterno} ${puestos[x].materno} ${puestos[x].nombre}</label>`
-                    break
-                }else{
-                    check+=`<label><input name="firma" type="checkbox" value="${puestos[x].idPuestoJuridico}">${puestos[x].paterno} ${puestos[x].materno} ${puestos[x].nombre}</label>`
+                    check+=`<label><input name="firma" type="checkbox" value="${puestos[x].idPuestoJuridico}" checked >${puestos[x].paterno} ${puestos[x].materno} ${puestos[x].nombre}</label>`
+                    let test=res.shift()
                     break
                 }
-            }
-            console.log(check)
+                else{
+                    check+=`<label><input name="firma" type="checkbox" value="${puestos[x].idPuestoJuridico}"  >${puestos[x].paterno} ${puestos[x].materno} ${puestos[x].nombre}</label>`                    
+                }
         }
+        
+    }
+    return check
     }
 }

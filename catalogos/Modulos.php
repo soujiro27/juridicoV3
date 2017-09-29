@@ -13,7 +13,9 @@ class Catalogos{
         'Irac',
         'ObservacionesDoctosJuridico',
         'VolantesDocumentos',
-        'DocumentosSiglas'
+        'DocumentosSiglas',
+        'confrontasJuridico',
+        'ConfrontasJuridico'
     ];
     private $catalogos=[
         'Caracteres',

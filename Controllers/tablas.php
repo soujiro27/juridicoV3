@@ -22,6 +22,9 @@ class Tablas{
        elseif ($modulo=='Irac') {
            $this->QuerySimple($catTablas->irac());
        }
+       elseif ($modulo=='confrontasJuridico') {
+        $this->QuerySimple($catTablas->confronta());
+    }
            
    }
 

@@ -76,6 +76,30 @@ class CatTablas{
         return $irac;
     }
 
+    public function confronta(){
+      
+            $confronta = "select 
+        v.idVolante,v.folio, numDocumento, v.fRecepcion,v.idRemitente,v.asunto,v.extemporaneo,
+        cc.nombre as Caracter,
+        ac.nombre as Accion,
+        a.clave as Auditoria,
+        tj.estadoProceso,
+        v.estatus
+        from sia_usuarios u
+        inner join sia_empleados e on u.idEmpleado=e.idEmpleado
+        inner join sia_Volantes v on e.idArea=v.idTurnado
+        inner join sia_VolantesDocumentos vd on v.idVolante=vd.idVolante
+        inner join sia_catSubTiposDocumentos std on vd.idSubTipoDocumento=std.idSubTipoDocumento
+        inner join sia_CatCaracteres cc on v.idCaracter=cc.idCaracter
+        inner join sia_CatAcciones ac on v.idAccion=ac.idAccion
+        inner join sia_auditorias a on vd.cveAuditoria = a.idAuditoria
+        inner join sia_turnosJuridico tj on v.idVolante=tj.idVolante
+        inner join sia_Parametros p on std.nombre=p.clave
+        where u.idUsuario='".$_SESSION ["idUsuario"]."' and std.nombre='CONFRONTA' and v.estatus='ACTIVO'";
+        return $confronta;
+        
+    }
+
 }
 
 

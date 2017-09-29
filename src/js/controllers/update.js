@@ -20,6 +20,10 @@ module.exports=class UpdateController{
         let self=this
         let datosArray=$('form#'+ruta).serializeArray()
         let valida=this.validaDatos(datosArray)
+        if(ruta=='DocumentosSiglas'){
+            let data=self.puestos(datos)
+            datos=data
+        }
         if(valida){
             let datos=$('form#'+ruta).serialize()+'&'+campo+'='+id
             get.sendDataToUpdate(ruta,datos).then(json=>{
@@ -28,6 +32,47 @@ module.exports=class UpdateController{
             })
         }
     }
+
+
+    getDataFormSiglas(ruta,valida,campo,id){
+        let self=this
+        $('form#'+ruta).submit(function(e){
+            e.preventDefault()
+            let datos=$(this).serializeArray()
+            let validacion=self.validaDatosForm(datos,valida)
+            if(ruta=='DocumentosSiglas'){
+                let data=self.puestos(datos)
+                data.push({name:campo,value:id})
+                datos=data
+            }
+            if(validacion){
+                get.sendDataToUpdate(ruta,datos)
+                .then(json=>{
+                    self.statusInsertRegister(json,ruta)
+                })
+            }
+        })
+    }
+
+    validaDatosForm(datos,valida){
+        if(valida){
+            let cont=0
+            datos.map(function(index,el){
+                if(validate.isEmpty(index.value)){cont++;}
+            })
+            if(cont>0){
+                confirm.empty()
+                return false
+            }
+        }else{
+            return true
+        }
+    }
+
+
+
+
+
 
     validaDatos(datos){
         let cont=0
@@ -50,6 +95,8 @@ module.exports=class UpdateController{
             }else if(index==='Success'){
                 if(ruta=='Volantes'){
                     self.sendNotificacionUpdate(ruta,id)
+                } else if(ruta=='ObservacionesDoctosJuridico' || ruta=='DocumentosSiglas'){
+                    ruta='Irac'
                 }
                 let drawTable= new table()
                 drawTable.getDataTable(ruta)
@@ -80,7 +127,22 @@ module.exports=class UpdateController{
             url:'/altanotifica/'+userDest+'|'+mensaje+'|'+id+'|'+auditoria+'|Volantes|idVolante'
 		})
 		
-	}
+    }
+    
+      puestos(data){
+        console.log(data)
+        let firmas=''
+        let datos=[]
+        for(let x in data){
+           if(data[x].name=='firma'){
+               firmas+=`${data[x].value},`
+            }else{
+                datos.push({name:data[x].name,value:data[x].value})
+            }
+        }
+        datos.push({name:'idPuestosJuridico',value:firmas})        
+       return datos
+    }
 
     
 

@@ -101,3 +101,42 @@ page('/juridico/SubTiposDocumentos/update/:campo/:id',function(ctx,next){
     })
    
 })
+
+
+page('/juridico/confrontasJuridico/update/:campo/:id',function(ctx,next){
+    //let data=updateController.creaObjeto(ctx)
+    let idVolante=ctx.params.id
+   get.getRegister('ConfrontasJuridico',{idVolante:idVolante})
+   .then(res=>{
+       if(res.Error=='Registro No Encontrado'){
+        get.getRegister('VolantesDocumentos',{idVolante:idVolante})
+        .then(json=>{
+            let sub=json["0"].idSubTipoDocumento
+            get.getRegister('SubTiposDocumentos',{idSubTipoDocumento:sub})
+            .then(resolve=>{
+                let tipo=resolve["0"].idTipoDocto
+                let nota=json["0"].notaConfronta
+                const conf=require('./../templates/insert/confronta')
+                const confronta=new conf()
+                let template=confronta.render(idVolante)
+                $('div#main-content').html(template)
+                $('input.fechaInput').datepicker({ dateFormat: "yy-mm-dd" });
+                if(tipo=='OFICIO' && nota=='NO'){
+                    $('div.notaInformativa').remove()
+                }
+                insert.btnCancelar('confrontasJuridico')
+                insert.getDataForm('confrontasJuridico',false)
+            })
+        })
+       }
+       else{
+        const conf=require('./../templates/update/confronta')
+        const confronta=new conf()
+        let template=confronta.render(res)
+        modal.confronta('confrontasJuridico',template,'idConfrontaJuridico',res[0].idConfrontaJuridico,res[0].notaInformativa,idVolante)
+       }
+   }) 
+
+       
+    
+})
