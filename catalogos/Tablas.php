@@ -107,7 +107,19 @@ class CatTablas{
     inner join sia_turnosJuridico t on v.idVolante=t.idVolante
     where sub.nombre='Ifa' and v.idTurnado=
     (select nombreCorto from sia_areas where idAreaSuperior='DGAJ' and idEmpleadoTitular=
-    (select idEmpleado from sia_usuarios where idUsuario='".$_SESSION ['idUsuario']."')) order by v.idVolante desc";
+    (select idEmpleado from sia_usuarios where idUsuario='".$_SESSION ['idUsuario']."'))";
+        return $sql;
+    }
+
+    public function documentos(){
+        $sql="select v.idVolante,v.numDocumento,a.clave as Auditoria,subd.nombre as Tipo,
+        v.anexoDoc
+        from sia_Volantes v
+        inner join sia_VolantesDocumentos vd on v.idVolante=vd.idVolante
+        inner join sia_auditorias a on vd.cveAuditoria=a.idAuditoria
+        inner join sia_catSubTiposDocumentos subd on vd.idSubTipoDocumento=subd.idSubTipoDocumento
+        where v.idTurnado=(select idArea from sia_usuarios where idUsuario='".$_SESSION ['idUsuario']."')
+        and v.anexoDoc is not null";
         return $sql;
     }
 

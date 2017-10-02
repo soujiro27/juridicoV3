@@ -11,11 +11,13 @@ module.exports=class addObsvIRac{
         <input type="hidden"  name="idVolante" value="${idVolante}"  >
         <input type="hidden"  name="cveAuditoria" value="${cveAuditoria}"  >
         <input type="hidden"  name="idSubTipoDocumento" value="${idSubDoc}"  >
-        <input type="hidden"  id="parrafo" name="parrafo" required class="form-control"   value="NA">
     </div>
     
     
-   
+    <div class="form-group parrafo">
+    <label for="parrafo">Parrafo</label>
+    <input type="text"  id="parrafo" name="parrafo" required class="form-control"   >
+    </div>
     
     <div class="form-group observacion">
         <label for="observacion">Observacion</label>

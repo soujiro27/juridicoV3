@@ -1,12 +1,12 @@
 <?php
 
 session_start();
-require './../../../models/get.php';
+
 $idVolante = $_GET['param1'];
 
 function conecta(){
     try{
-      require './../../../../../src/conexion.php';
+      require './../../../../src/conexion.php';
       $db = new PDO("sqlsrv:Server={$hostname}; Database={$database}", $username, $password );
       return $db;
     }catch (PDOException $e) {
@@ -41,7 +41,7 @@ $datos=consultaRetorno($sql, $db);
 
 
 
-$sql="select pagina,observacion from sia_ObservacionesDoctosJuridico  where idVolante='$idVolante' and estatus='ACTIVO'";
+$sql="select pagina,parrafo,observacion from sia_ObservacionesDoctosJuridico  where idVolante='$idVolante' and estatus='ACTIVO'";
 
 $tabla=consultaRetorno($sql,$db);
 
@@ -137,7 +137,7 @@ AUDITORÍA SUPERIOR DE LA CIUDAD DE MÉXICO
 DIRECCIÓN GENERAL DE ASUNTOS JURÍDICOS
 DIRECCIÓN DE INTERPRETACIÓN JURÍDICA Y PROMOCIÓN DE ACCIONES
 HOJA DE EVALUACIÓN DE INFORMES FINALES DE AUDITORÍA
-CUENTA PÚBLICA 2015
+CUENTA PÚBLICA 2016
 EOD;
 
 // print a block of text using Write()
@@ -200,6 +200,7 @@ $html = <<<EOD
    <tr>
        <td align="center" colspan="1" width="50" >No.</td>
        <td align="center" colspan="1" width="50" >Hoja</td>
+       <td align="center" colspan="1" width="50" >Parrafo</td>
        <td align="left" colspan="1" width="557"></td>
    </tr>
    <tbody>

@@ -366,8 +366,7 @@ module.exports=class UpdateModals{
                             if(json.Error=='Registro No Encontrado'){
                                self.msgError('Genere La Cedula Primero')
                             }else{
-                                window.open('/juridico/reportes/IRAC.php'+'?param1='+idVolante)
-                            }
+                                window.open('/juridico/reportes/tcpdf/examples/Ifa.php'+'?param1='+idVolante)                            }
                         })
                     }
                 }

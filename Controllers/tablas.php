@@ -28,6 +28,9 @@ class Tablas{
         elseif ($modulo=='Ifa') {
             $this->QuerySimple($catTablas->Ifa());
         }
+        elseif ($modulo=='Documentos') {
+            $this->QuerySimple($catTablas->documentos());
+        }
            
    }
 

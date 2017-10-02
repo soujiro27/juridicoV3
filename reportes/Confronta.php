@@ -28,7 +28,7 @@ a.idEmpleadoTitular,a.nombre as area,
 CONCAT(u.saludo,' ',e.nombre,' ',e.paterno,' ',e.materno) as titular,
 audi.clave,
 dbo.lstSujetosByAuditoria(audi.idAuditoria) as ente,
-con.notaInformativa, con.nombreResponsable, con.cargoResponsable, con.siglas, con.siglas,con.fOficio,con.hConfronta, con.fConfronta, con.numFolio
+con.notaInformativa, con.nombreResponsable, con.cargoResponsable, con.siglas, con.siglas,con.fOficio,con.hConfronta, con.fConfronta, con.numFolio, catsub.idTipoDocto as tipo
 from sia_Volantes v
 left join sia_VolantesDocumentos vd on v.idVolante=vd.idVolante
 left join sia_areas a on v.idRemitente=a.idArea
@@ -36,10 +36,14 @@ left join sia_empleados e on a.idEmpleadoTitular=e.idEmpleado
 left join sia_usuarios u on e.idEmpleado=u.idEmpleado
 left join sia_auditorias audi on vd.cveAuditoria=audi.idAuditoria
 left join sia_confrontasJuridico con on v.idVolante=con.idVolante
+left join sia_catSubTiposDocumentos catsub on vd.idSubTipoDocumento=catsub.idSubTipoDocumento
 where v.idVolante='$idVolante'";
 
 $db=conecta();
 $datos=consultaRetorno($sql, $db);
+
+
+
 
 //var_dump($datos);
 
@@ -59,20 +63,24 @@ $ente=$datos[0]['ente'];
 $fecha=explode('-',$datos[0]['fOficio']);
 $mes=mes($fecha[1]);
 
-
+$textoNota='Hago referencia a su Nota Informativa '.$datos[0]['numDocumento'];
 $texto='Hago referencia a su oficio '.$datos[0]['numDocumento'];
 $textoDos=' y Nota Informativa '.$datos[0]['notaInformativa'];
 $textoTres=' mediante los cuales solicita se proporcione el nombre del servidor público que asistira a la reunión de Confronta, correspondiente a la Cuenta Pública 2016, sobre el particular, se informa el nombre del representante:';
 $textoTres=convierte($textoTres);
 
-//echo empty($datos[0]['notaInformativa']);
-if(empty($datos[0]['notaInformativa'])){
-  $textoFinal=$texto.$textoTres;
+
+if($datos[0]['tipo']=='NOTA'){
+  $textoFinal=$textoNota.$textoTres;
 }else{
+//echo empty($datos[0]['notaInformativa']);
+  if(empty($datos[0]['notaInformativa'])){
+  $textoFinal=$texto.$textoTres;
+  }else{
     $textoFinal=$texto.$textoDos.$textoTres;
+  }
+
 }
-
-
 
 $audit=convierte('AUDITORÍA SUPERIOR DE LA CIUDAD DE MÉXICO');
 $dir=convierte('DIRECCIÓN GENERAL DE ASUNTOS JURÍDICOS');

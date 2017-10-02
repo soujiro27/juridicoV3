@@ -106,7 +106,12 @@ page('/juridico/Volantes/add',function(ctx,next){
 })
 
 
+page('/juridico/Documentos/add',function(ctx,next){
 
+    const template=require('./../templates/insert/documentos.html')
+    $('div#main-content').html(template)
+    insert.uploadFile()
 
+})
 
 

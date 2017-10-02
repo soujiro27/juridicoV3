@@ -100,4 +100,23 @@ $app->get('/getAreaVolante/',function() use ($app){
 });
 
 
+/*----------------upload de archivos -----------------------*/
+
+$app->post('/juridico/insert/uploadFile',function() use ($app){
+ 
+    $controller = new Insert();
+    $numDoc=$app->request->post();
+	$numDoc=$numDoc['numDocumento'];
+    $res=$controller->isFileExist('Volantes',$numDoc);
+    if($res){
+        $file=$_FILES['anexoDoc']['name'];
+		$nombre=str_replace('/','-',$numDoc);
+		$file=explode('.',$file);
+		if ($file && move_uploaded_file($_FILES['anexoDoc']['tmp_name'],"./juridico/files/".$nombre.'.'.$file[1])){
+
+        }
+    }
+});
+
+
 ?>

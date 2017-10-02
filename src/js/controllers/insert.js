@@ -178,5 +178,29 @@ module.exports=class Insert{
     }
     
 
+    uploadFile(){
+		let self=this
+		$('form#documentosJur').on('submit',function(e){
+			e.preventDefault()
+			 var formData = new FormData($(this)[0]);
+			    $.ajax({
+            url: '/juridico/insert/uploadFile',  
+            type: 'POST',
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            beforeSend: function(){
+               // message = $("<span class='before'>Subiendo la imagen, por favor espere...</span>");
+                //showMessage(message)        
+            },
+          
+            success: function(json){
+              let data=JSON.parse(json)
+              self.statusInsertRegister(json,ruta)
+            }
+        });
+		})
+	}
     
 }

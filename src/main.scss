@@ -150,3 +150,15 @@ div.IracObservacionesContent div.buttonsIrac{
 .jconfirm{
     z-index:9998 !important ;
 }
+
+
+div.observacion{
+    display: block !important;
+}
+
+div.cke_editable_inline{
+    border: 1px solid grey;
+    width: 90% !important;
+    display: block;
+    height: 200px;
+}

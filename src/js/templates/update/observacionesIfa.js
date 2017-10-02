@@ -8,10 +8,13 @@ module.exports=class updateObsvIfa{
     <div class="form-group pagina">
         <label for="pagina">Hoja</label>
         <input type="number"  id="pagina" name="pagina" required class="form-control"  value="${data.pagina}" >
-        <input type="hidden"  id="parrafo" name="parrafo" required class="form-control"  value="${data.parrafo}"  >
+       
     </div>
     
-
+    <div class="form-group parrafo">
+    <label for="parrafo">Parrafo</label>
+    <input type="text"  id="parrafo" name="parrafo" required class="form-control" value="${data.parrafo}"  >
+    </div>
     
     <div class="form-group observacion">
         <label for="observacion">Observacion</label>

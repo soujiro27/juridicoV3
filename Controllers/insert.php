@@ -43,8 +43,11 @@ class Insert extends Consultas{
     public function isExistRegister($modulo,$datos){
         $get = new Get();
         $sql=$this->getAllWhere($modulo,$datos,'AND','=');
+     
         $arrayPdo=$this->buildArrayPdo($datos);
+       
         $res=$get->consultaWhere($sql,$arrayPdo);
+      
         if(!$res){
             return True;
         }else{
@@ -127,6 +130,32 @@ class Insert extends Consultas{
         );
         return $send;
     }
+
+    public function isFileExist($modulo,$numDoc){
+        $get = new Get();
+        $user=array('idUsuario' => $_SESSION ['idUsuario']);
+        $sql=$this->getAllWhere('usuarios',$user,'AND','=');
+        $arrayPdo=$this->buildArrayPdo($user);
+        $res=$get->consultaWhere($sql,$arrayPdo);
+        $idArea=$res[0]["idArea"];
+        $data=array('numDocumento'=>$numDoc, 'idTurnado'=>$idArea);
+        $sql=$this->getAllWhere('Volantes',$data,'AND','=');
+        $arrayPdo=$this->buildArrayPdo($data);
+        $res=$get->consultaWhere($sql,$arrayPdo);
+        if(!$res){
+            //no hay registro
+            return False;
+        }else{
+            if($res[0]["anexoDoc"]==NULL){
+                return True;
+            }else{
+                //echo "no es null";
+                return False;
+            }
+            
+        }
+    }
+
 }
 
 

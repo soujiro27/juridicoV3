@@ -121,7 +121,7 @@ page('/juridico/confrontasJuridico/update/:campo/:id',function(ctx,next){
                 $('input.fechaInput').datepicker({ dateFormat: "yy-mm-dd" });
                 if(tipo=='OFICIO' && nota=='NO'){
                     $('div.notaInformativa').remove()
-                }
+                }else if(tipo=='NOTA'){ $('div.notaInformativa').remove()}
                 insert.btnCancelar('confrontasJuridico')
                 insert.getDataForm('confrontasJuridico',false)
             })

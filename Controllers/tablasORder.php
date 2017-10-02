@@ -22,6 +22,18 @@ class TablasOrder{
       $sql=$this->andOrderAndTypeSql($catTablas->volantes(),$campo,$tipo);
       $this->QuerySimple($sql);
      }
+     elseif ($modulo=='Irac') {
+      $sql=$this->andOrderAndTypeSql($catTablas->irac(),$campo,$tipo);
+      $this->QuerySimple($sql);
+  }
+  elseif ($modulo=='confrontasJuridico') {
+    $sql=$this->andOrderAndTypeSql($catTablas->confronta(),$campo,$tipo);
+    $this->QuerySimple($sql);
+   }
+   elseif ($modulo=='Ifa') {
+       $sql=$this->andOrderAndTypeSql($catTablas->Ifa(),$campo,$tipo);
+       $this->QuerySimple($sql);
+   }
    }
 
    public function generateQueryOrm($modulo,$campo,$tipo){

@@ -22,6 +22,9 @@ class InsertModel{
             $dbQuery->execute($pdo);
             $insert=array('Success' => 'Success');
             echo json_encode($insert);
+            //$errores=$dbQuery->errorInfo();     
+            //$insert=array('Error' => $errores);
+            //echo json_encode($insert);
         } catch(PDOException $e){
             $errores=$dbQuery->errorInfo();     
             $insert=array('Error' => $errores);
