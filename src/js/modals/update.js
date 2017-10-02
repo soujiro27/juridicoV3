@@ -334,14 +334,22 @@ module.exports=class UpdateModals{
                             let el= cedulaIfa.inicio(json[0],idVolante,json[1],json[2])
                             $('div#main-content').html(el)
                             $('input.fechaInput').datepicker({ dateFormat: "yy-mm-dd" });
+                            $('button#addPromoAccion').click(function(){
+                               self.textosPromocion()
+                            })
                             if(json[0].Error=='Registro No Encontrado'){
                                
                                 insertController.getDataForm('DocumentosSiglas')
                             }else{
-                                
-                                updateController.getDataFormSiglas('DocumentosSiglas',false,'idDocumentoSiglas',json["0"]["0"].idDocumentoSiglas)
+                                let idDocumentoTexto=json["0"]["0"].idDocumentoTexto
+                                get.getRegister('DoctosTextos',{idDocumentoTexto:idDocumentoTexto})
+                                .then(res=>{
+                                    $('textarea#textoIfa').text(res["0"].texto)
+                                    updateController.getDataFormSiglas('DocumentosSiglas',false,'idDocumentoSiglas',json["0"]["0"].idDocumentoSiglas)
+
+                                })
                             }
-                            insertController.btnCancelar('Irac')
+                            insertController.btnCancelar('Ifa')
                         })
 
                      })
@@ -409,5 +417,43 @@ module.exports=class UpdateModals{
             },
             draggable: true
         })
+    }
+
+    textosPromocion(){
+       
+            const template=require('./../templates/insert/textoPromocion.html')
+           
+            $.confirm({
+                title:'Actualizar Registro',
+                theme:'material',
+                content:template,
+                buttons:{
+                    formSubmit:{
+                        text:'Aceptar',
+                        btnClass:'btn-blue',
+                    },
+                    cancel:{
+                        text:'Cancelar',
+                        btnClass:'btn-danger',
+                    }
+                },
+                onOpenBefore:function(){
+                    let body=''
+                    get.getRegister('DoctosTextos',{idTipoDocto:'OFICIO',tipo:'JURIDICO'})
+                    .then(json=>{
+                        for(let x in json){
+                            body+=`<tr data-id="${json[x].idDocumentoTexto}"><td>${json[x].texto}</td></tr> `
+                        }
+                        $('table.DoctosTextos tbody').html(body)
+                        $('table.DoctosTextos tbody tr').click(function(){
+                            let id = $(this).data('id')
+                            let texto=$(this).children().text()
+                            $('input#idDocumentoTexto').val(id)
+                            $('textarea#textoIfa').text(texto)
+                        })  
+                    })
+                }
+            })
+    
     }
 }
