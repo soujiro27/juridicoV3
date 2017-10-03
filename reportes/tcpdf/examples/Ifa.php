@@ -188,7 +188,7 @@ $pdf->Ln(3);
 $txt='';
 $cont=1;
 foreach($tabla as $llave => $valor){
-    $txt=$txt.'<tr><td align="center" colspan="1" width="50">'.$cont.'</td>';
+    $txt=$txt.'<tr><td align="center" colspan="1" width="40">'.$cont.'</td>';
     foreach($tabla[$llave] as $key=>$value){
         $txt=$txt.'<td>'.$value.'</td>';
     }
@@ -198,10 +198,10 @@ foreach($tabla as $llave => $valor){
 $html = <<<EOD
 <table cellspacing="0" cellpadding="3" border="1" >
    <tr>
-       <td align="center" colspan="1" width="50" >No.</td>
-       <td align="center" colspan="1" width="50" >Hoja</td>
-       <td align="center" colspan="1" width="50" >Parrafo</td>
-       <td align="left" colspan="1" width="557"></td>
+       <td align="center" colspan="1" width="40" >No.</td>
+       <td align="center" colspan="1" width="40" >Hoja</td>
+       <td align="center" colspan="1" width="40" >Parrafo</td>
+       <td align="left" colspan="1" width="545"></td>
    </tr>
    <tbody>
    $txt</tbody>
@@ -316,7 +316,7 @@ $elementos=count($nombres);
     $elaboro='<tr>';
     foreach ($nombres as $llave => $valor) {
       
-        $elaboro=$elaboro.'<td align="center"><p>ELABORÓ</p><br><br>'.$saludo[$llave]. $valor.'<br>'.$puestos[$llave].'</td>';
+        $elaboro=$elaboro.'<td align="center"><p>ELABORÓ</p><br><br><br><br>'.$saludo[$llave]. $valor.'<br>'.$puestos[$llave].'</td>';
       } 
     $elaboro=$elaboro.'</tr>';
   }elseif ($elementos==3) {
@@ -324,13 +324,13 @@ $elementos=count($nombres);
     $elaboro='<tr>';
     foreach ($nombres as $llave => $valor) {
         if($cont>2){
-          $elaboro=$elaboro.'<br><br><tr><td align="center"><p>ELABORÓ</p><br><br>'.$saludo[$llave]. $valor.'<br>'.$puestos[$llave].'</td></tr>';
+          $elaboro=$elaboro.'<br><br><br><br><tr><td align="center"><p>ELABORÓ</p><br><br><br><br>'.$saludo[$llave]. $valor.'<br>'.$puestos[$llave].'</td></tr>';
         }elseif($cont>1){
 
-        $elaboro=$elaboro.'<td align="center"><p>ELABORÓ</p><br><br>'.$saludo[$llave].$valor.'<br>'.$puestos[$llave].'</td></tr>';
+        $elaboro=$elaboro.'<td align="center"><p>ELABORÓ</p><br><br><br><br>'.$saludo[$llave].$valor.'<br><br><br>'.$puestos[$llave].'</td></tr>';
 
         }else{
-           $elaboro=$elaboro.'<td align="center"><p>ELABORÓ</p><br><br>'.$saludo[$llave].$valor.'<br>'.$puestos[$llave].'</td>';
+           $elaboro=$elaboro.'<td align="center"><p>ELABORÓ</p><br><br><br><br>'.$saludo[$llave].$valor.'<br>'.$puestos[$llave].'</td>';
         }
         $cont++;
       } 
@@ -348,7 +348,7 @@ foreach ($puestos as $key => $value) {
   $lineaPuestos=$lineaPuestos.'<td align="center" colspan="1"  >'.$value.'</td>';
 }
 //echo $linea;
-$pdf->Ln(10);
+$pdf->Ln(40);
 
 $html = <<<EOD
 <table cellspacing="0" cellpadding="1" border="0" >
@@ -356,7 +356,7 @@ $elaboro
 </table>
 EOD;
 $pdf->writeHTML($html, true, false, false, false, '');
-$pdf->Ln(10);
+$pdf->Ln(5);
 
 if($cont>2){
   

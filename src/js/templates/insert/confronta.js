@@ -40,7 +40,7 @@ module.exports=class confronta{
                 </div>
                 
                 <div class="form-group numFolio">
-                <label for="numFolio">Numero Folio</label>
+                <label for="numFolio">Numero Documento</label>
                 <input type="text"  id="numFolio" name="numFolio" required class="form-control"  >
                 <input type="hidden" name="idVolante" value="${idVolante}"  >
                 

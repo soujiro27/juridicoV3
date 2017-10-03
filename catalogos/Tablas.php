@@ -43,6 +43,14 @@ class CatTablas{
     inner join sia_auditorias a on vd.cveAuditoria=a.idAuditoria
     inner join sia_catSubTiposDocumentos sub on vd.idSubTipoDocumento=sub.idSubTipoDocumento';
 
+    private $documentosGral="select v.idVolante,v.numDocumento,a.clave,subd.nombre as Documento, v.idTurnado as Remitente,
+    v.anexoDoc
+    from sia_Volantes v
+    inner join sia_VolantesDocumentos vd on v.idVolante=vd.idVolante
+    inner join sia_auditorias a on vd.cveAuditoria=a.idAuditoria
+    inner join sia_catSubTiposDocumentos subd on vd.idSubTipoDocumento=subd.idSubTipoDocumento
+    and v.anexoDoc is not null
+    ";
 
     public function Caracteres(){
         return $this->Caracteres;
@@ -64,6 +72,9 @@ class CatTablas{
         return $this->volantes;
     }
 
+    public function documentosGral(){
+        return $this->documentosGral;
+    }
    
     public function irac(){
         $irac="select v.idVolante,v.folio,v.numDocumento, v.fRecepcion, v.idRemitente, v.asunto, v.estatus, t.estadoProceso from sia_Volantes v

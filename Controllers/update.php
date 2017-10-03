@@ -66,7 +66,15 @@ class UpdateController extends Consultas{
         return $datos;
     }
 
-    
+    public function updateFile($modulo,$datos){
+        $where=$this->getDataWhereQuery($datos);
+        $valuesQuery=$this->deleteLastRegisterPdo($datos);
+        $sql=$this->updateQuery($modulo,$valuesQuery,$where);
+        $pdo = $this->buildArrayPdo($datos);
+        $update = new UpdateModel();
+        $update->UpdatePdo($sql,$pdo);
+    }
+        
 
 
 }

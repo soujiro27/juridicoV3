@@ -110,8 +110,23 @@ page('/juridico/Documentos/add',function(ctx,next){
 
     const template=require('./../templates/insert/documentos.html')
     $('div#main-content').html(template)
+    //insert.uploadFile()
+    insert.checkNumeroDocumento()
+    insert.dataFileUpload()
     insert.uploadFile()
-
+    insert.btnCancelar(ruta)
 })
+
+
+page('/juridico/DocumentosGral/add',function(ctx,next){
+    
+        const template=require('./../templates/insert/documentos.html')
+        $('div#main-content').html(template)
+        //insert.uploadFile()
+        insert.checkNumeroDocumentoAll()
+        insert.dataFileUpload()
+        insert.uploadFileAll()
+        insert.btnCancelar(ruta)
+    })
 
 

@@ -1,14 +1,14 @@
 <?php
 session_start();
 // Include the main TCPDF library (search for installation path).
-
 require_once('./tcpdf/tcpdf.php');
+
 $idVolante = $_GET['param1'];
 
 
 function conecta(){
   try{
-    require './../../src/conexion.php';
+    require './../../src/conexion.php'; 
     $db = new PDO("sqlsrv:Server={$hostname}; Database={$database}", $username, $password );
     return $db;
   }catch (PDOException $e) {
@@ -23,7 +23,7 @@ function consultaRetorno($sql,$db){
     return $query->fetchAll(PDO::FETCH_ASSOC);
 }
 
-$sql = "SELECT vo.numDocumento,CASE WHEN SUBSTRING(a.tipoAuditoria,1,3)='FIN' THEN '<b>C.P. FELIPE DE JESÚS ALVA MARTÍNEZ,</b> Titular de la Unidad Técnica Sustantiva de Fiscalización Financiera y Administración.- Presente.- Para su conocimiento.<br>' ELSE ' ' END tipoau,a.idAuditoria audi ,a.clave claveAuditoria,vo.fDocumento,CONCAT(us.nombre,' ',us.paterno,' ', us.materno) nombreres, ar.nombre direccion,ds.fOficio,ds.siglas,ds.idPuestosJuridico,ds.numFolio FROM sia_Volantes vo INNER JOIN sia_volantesDocumentos vd on vo.idVolante = vd.idVolante INNER JOIN sia_areas ar on vo.idRemitente=ar.idArea INNER JOIN sia_usuarios us on ar.idEmpleadoTitular=us.idEmpleado INNER JOIN sia_DocumentosSiglas ds on vo.idVolante=ds.idVolante INNER JOIN sia_auditorias a on vd.cveAuditoria=a.idAuditoria WHERE vo.idVolante='$idVolante';";      
+$sql = "SELECT vo.numDocumento,CASE WHEN a.tipoAuditoria LIKE '%FIN%' THEN '<b>C.P. FELIPE DE JESÚS ALVA MARTÍNEZ,</b> Titular de la Unidad Técnica Sustantiva de Fiscalización Financiera y Administración.- Presente.- Para su conocimiento.<br>' WHEN us.idArea='DGACFA' or us.idArea='DGACFB' or us.idArea='DGACFC' THEN '<b>C.P. FELIPE DE JESÚS ALVA MARTÍNEZ,</b> Titular de la Unidad Técnica Sustantiva de Fiscalización Financiera y Administración.- Presente.- Para su conocimiento.<br>' ELSE ' ' END tipoau,a.idAuditoria audi ,a.clave claveAuditoria,vo.fDocumento,CONCAT(us.saludo,' ',us.nombre,' ',us.paterno,' ', us.materno) nombreres, ar.nombre direccion,ds.fOficio,ds.siglas,ds.idPuestosJuridico,ds.numFolio FROM sia_Volantes vo INNER JOIN sia_volantesDocumentos vd on vo.idVolante = vd.idVolante INNER JOIN sia_areas ar on vo.idRemitente=ar.idArea INNER JOIN sia_usuarios us on ar.idEmpleadoTitular=us.idEmpleado INNER JOIN sia_DocumentosSiglas ds on vo.idVolante=ds.idVolante INNER JOIN sia_auditorias a on vd.cveAuditoria=a.idAuditoria WHERE vo.idVolante='$idVolante';";      
       
 $db=conecta();
 $datos=consultaRetorno($sql, $db);
@@ -45,7 +45,6 @@ $feoficio=explode('-',$datos[0]['fOficio']);
 $mes2=mes(intval($feoficio[1]));
 
 $numdocu=convierte(str_replace('/',"\n", $datos[0]['numDocumento']));
-$numFolio=convierte(str_replace('/',"\n", $datos[0]['numFolio']));
 $clave=convierte(str_replace('/',"\n", $datos[0]['claveAuditoria']));
 $fdocume=$datos[0]['fDocumento'];
 $nomarers=$datos[0]['nombreres'];
@@ -53,6 +52,7 @@ $direc=$datos[0]['direccion'];
 $sig=$datos[0]['siglas'];
 $puesjud=$datos[0]['idPuestosJuridico'];
 $tipo=$datos[0]['tipoau'];
+$numof=$datos[0]["numFolio"];
 
 class MYPDF extends TCPDF {
       // Page footer
@@ -115,7 +115,7 @@ $text1 = '
     <tr>
         <td colspan="1"><img img src="img/asamblea.png"/></td>
         <td colspan="2"></td>
-        <td colspan="4"><p><font size="10"><b> AUDITORÍA SUPERIOR DE LA CIUDAD DE MÉXICO<br><br> DIRECCIÓN GENERAL DE ASUNTOS JURIDICOS<br><br>OFICIO NÚM: ' .$datos[0]["numFolio"] .'<br><br> ASUNTO: Se remite evaluación del Informe de <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Resultados de Auditoría para Confronta<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (IRAC) correspondiente a la Auditoría <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $clave . '.<br><br>Ciudad de México, '. $fecha[2] . ' de ' .$mes . ' de ' . $fecha[0].'</b></p></font></td>
+        <td colspan="4"><p><font size="10"><b> AUDITORÍA SUPERIOR DE LA CIUDAD DE MÉXICO<br><br> DIRECCIÓN GENERAL DE ASUNTOS JURIDICOS<br><br>OFICIO NÚM: ' .$datos[0]["numFolio"] .'<br><br> ASUNTO: Se remite evaluación del Informe de <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Resultados de Auditoría para Confronta<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (IRAC) correspondiente a la Auditoría <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $clave . '.<br><br>Ciudad de México, '. $feoficio[2] . ' de ' .$mes . ' de ' . $feoficio[0].'</b></p></font></td>
     </tr>
 </table>';
 
@@ -147,7 +147,7 @@ $tbl = <<<EOD
 <table cellspacing="0" cellpadding="0" border="0">
     
     <tr>
-        <td align="justify">En atención al oficio número {$numdocu} de fecha {$feoficio[2]} de {$mes2} de {$feoficio[0]}, presentado ante esta Dirección General el día {$fecha[2]} de {$mes} de {$fecha[0]}, y de conformidad con lo dispuesto por el Manual del Proceso General de Fiscalización en su Apartado 7. “Fases de Auditoría”, inciso B) “Fase de Ejecución”, Subapartado 4. “Confronta de Resultados de Auditoría con el Sujeto Fiscalizado”, numeral 1, por este conducto, me permito remitir junto al original en sobre cerrado, la Hoja de Evaluación del Informe de Resultados de Auditoría para Confronta (IRAC):</td>
+        <td align="justify">En atención al oficio número {$numdocu} de fecha {$fecha[2]} de {$mes2} de {$fecha[0]}, presentado ante esta Dirección General el día {$fecha[2]} de {$mes} de {$fecha[0]}, y de conformidad con lo dispuesto por el Manual del Proceso General de Fiscalización en su Apartado 7. “Fases de Auditoría”, inciso B) “Fase de Ejecución”, Subapartado 4. “Confronta de Resultados de Auditoría con el Sujeto Fiscalizado”, numeral 1, por este conducto, me permito remitir junto al original en sobre cerrado, la Hoja de Evaluación del Informe de Resultados de Auditoría para Confronta (IRAC):</td>
     </tr>
 
 </table>
@@ -321,7 +321,8 @@ $tbl = <<<EOD
     <tr style="background-color:#E7E6E6;">
       <th colspan="1" align="center"><b>No.</b></th>
       <th colspan="1" align="center"><b>Página</b></th>
-      <th colspan="4" align="center"><b>Observaciones</b></th>
+      <th colspan="1" align="center"><b>Párrafo</b></th>
+      <th colspan="3" align="center"><b>Observaciones</b></th>
     </tr>
     
 EOD;
@@ -331,6 +332,7 @@ $tbl .= <<<EOD
   <tr>
     <td align="center">{$row['fila']}</td>
     <td colspan="1" align="center">{$row['pagina']}</td>
+    <td colspan="1" align="center">{$row['parrafo']}</td>
     <td colspan="5">{$row['observacion']}</td>
 
   </tr>
@@ -350,7 +352,7 @@ $pdf->writeHTML($tbl, true, false, false, false, '');
 
 // -----------------------------------------------------------------------------
 
-$sql="SELECT ar.idArea,pj.puesto juridico,CONCAT(us.saludo,' ',pj.nombre,' ',pj.paterno,' ',pj.materno) nombre, ds.siglas,ds.fOficio FROM sia_Volantes vo INNER JOIN sia_areas ar on vo.idTurnado= ar.idArea INNER JOIN sia_usuarios us on ar.idEmpleadoTitular=us.idEmpleado INNER JOIN sia_PuestosJuridico pj on us.idEmpleado=pj.rpe INNER JOIN sia_DocumentosSiglas ds on vo.idVolante = ds.idVolante WHERE vo.idVolante='$idVolante'";
+$sql="SELECT ar.idArea,pj.puesto juridico,CONCAT(pj.saludo,' ',pj.nombre,' ',pj.paterno,' ',pj.materno) nombre, ds.siglas,ds.fOficio FROM sia_Volantes vo INNER JOIN sia_areas ar on vo.idTurnado= ar.idArea INNER JOIN sia_usuarios us on ar.idEmpleadoTitular=us.idEmpleado INNER JOIN sia_PuestosJuridico pj on us.idEmpleado=pj.rpe INNER JOIN sia_DocumentosSiglas ds on vo.idVolante = ds.idVolante WHERE vo.idVolante='$idVolante'";
 
 $db=conecta();
 $date=consultaRetorno($sql, $db);
@@ -386,8 +388,8 @@ $tbl = <<<EOD
   <td align="center"><b>AUTORIZÓ</b></td>
  </tr>
  <tr>
-  <td align="center"><b><br><br>{$nombrecon}</b></td>
-  <td align="center"><b><br><br>DR. IVÁN DE JESÚS OLMOS CANSINO</b></td>
+  <td align="center"><b><br><br><br>{$nombrecon}</b></td>
+  <td align="center"><b><br><br><br>DR. IVÁN DE JESÚS OLMOS CANSINO</b></td>
  </tr>
   <tr>
   <td align="center"><b>{$Nombreela}</b></td>
@@ -406,7 +408,7 @@ $nombres=array();
 $puestos=array();
 for($i=0;$i<count($ef)-1;$i++){
     $usrf=$ef[$i];
-    $sql="select concat(nombre,' ',paterno,' ',materno) as nombre,puesto from sia_PuestosJuridico where idPuestoJuridico='$usrf'";
+    $sql="select concat(saludo,' ',nombre,' ',paterno,' ',materno) as nombre,puesto from sia_PuestosJuridico where idPuestoJuridico='$usrf'";
     $nombre=consultaRetorno($sql,$db);
     array_push($nombres,$nombre[0]['nombre']);
     array_push($puestos,$nombre[0]['puesto']);
@@ -418,25 +420,25 @@ $cont=1;
 $firmaSecond='';
 $elementos=count($nombres);
   if($elementos==1){
-     $elaboro=$elaboro.'<tr><td align="center"><b><p>ELABORÓ</p></b><br><br><b>'.$nombres[$elementos-1].'<br>'.$puestos[$elementos-1].'</b></td><td></td></tr>';
+     $elaboro=$elaboro.'<tr><td align="center"><b><p>ELABORÓ<br><br><br></p></b><br><br><br><br><b>'.$nombres[$elementos-1].'<br>'.$puestos[$elementos-1].'</b></td><td></td></tr>';
   }elseif ($elementos==2) {
-    $elaboro='<tr>';
+    $elaboro='<tr><br>';
     foreach ($nombres as $llave => $valor) {
-        $elaboro=$elaboro.'<td align="center"><p>ELABORÓ</p><br><br>'.$valor.'<br>'.$puestos[$llave].'</td>';
+        $elaboro=$elaboro.'<td align="center"><b><p>ELABORÓ<br><br><br></p></b><br><br><br><br><b>'.$valor.'<br>'.$puestos[$llave].'</b></td>';
       } 
     $elaboro=$elaboro.'</tr>';
   }elseif ($elementos==3) {
     $cont=1;
-    $elaboro='<tr>';
+    $elaboro='<tr><br>';
     foreach ($nombres as $llave => $valor) {
         if($cont>2){
-          $elaboro=$elaboro.'<tr><td align="center"><b><p>ELABORÓ</p></b><br><br><b>'.$valor.'<br>'.$puestos[$llave].'</b></td></tr>';
+          $elaboro=$elaboro.'<tr><td align="center"><b><p>ELABORÓ<br><br><br></p></b><br><br><br><br><b>'.$valor.'<br>'.$puestos[$llave].'</b></td></tr>';
         }elseif($cont>1){
 
-        $elaboro=$elaboro.'<td align="center"><b><p>ELABORÓ</p></b><br><br><b>'.$valor.'<br>'.$puestos[$llave].'</b></td></tr>';
+        $elaboro=$elaboro.'<td align="center"><b><p>ELABORÓ<br><br><br></p></b><br><br><br><br><b>'.$valor.'<br>'.$puestos[$llave].'</b></td></tr>';
 
         }else{
-           $elaboro=$elaboro.'<td align="center"><b><p>ELABORÓ</p></b><br><br><b>'.$valor.'<br>'.$puestos[$llave].'</b></td>';
+           $elaboro=$elaboro.'<td align="center"><b><p>ELABORÓ<br><br><br></p></b><br><br><br><br><b>'.$valor.'<br>'.$puestos[$llave].'</b></td>';
         }
         $cont++;
       } 
@@ -471,7 +473,7 @@ $pdf->writeHTML($html, true, false, false, false, '');
 $tbl = <<<EOD
   <table cellspacing="0" cellpadding="0" border="0">
     <tr><td colspan="6" align="left">{$sig}</td>
-    <td><b>Ref. ACF-</b></td></tr>  
+    <td><b>{$numof}</b></td></tr>  
   </table>
 EOD;
 

@@ -34,7 +34,15 @@ class TablasOrder{
        $sql=$this->andOrderAndTypeSql($catTablas->Ifa(),$campo,$tipo);
        $this->QuerySimple($sql);
    }
-   }
+   elseif ($modulo=='Documentos') {
+    $sql=$this->andOrderAndTypeSql($catTablas->documentos(),$campo,$tipo);
+    $this->QuerySimple($sql);
+    }
+    elseif ($modulo=='DocumentosGral') {
+    $sql=$this->andOrderAndTypeSql($catTablas->documentosGral(),$campo,$tipo);
+    $this->QuerySimple($sql);
+    }
+}
 
    public function generateQueryOrm($modulo,$campo,$tipo){
         $orm = new Consultas();

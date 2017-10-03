@@ -106,17 +106,42 @@ $app->post('/juridico/insert/uploadFile',function() use ($app){
  
     $controller = new Insert();
     $numDoc=$app->request->post();
-	$numDoc=$numDoc['numDocumento'];
+    $numDoc=$numDoc['numDocumento'];
+   
     $res=$controller->isFileExist('Volantes',$numDoc);
-    if($res){
         $file=$_FILES['anexoDoc']['name'];
 		$nombre=str_replace('/','-',$numDoc);
-		$file=explode('.',$file);
+        $file=explode('.',$file);
+        $nameComplete=$nombre.'.'.$file[1];
 		if ($file && move_uploaded_file($_FILES['anexoDoc']['tmp_name'],"./juridico/files/".$nombre.'.'.$file[1])){
-
+            $controllerUpdate= new UpdateController();
+            $datos=array('anexoDoc'=>$nameComplete,'idVolante'=>$res);
+         
+            $controllerUpdate->updateFile('Volantes',$datos);
         }
-    }
+  
 });
+
+$app->post('/juridico/insertAll/uploadFile',function() use ($app){
+    
+       $controller = new Insert();
+       $numDoc=$app->request->post();
+       $numDoc=$numDoc['numDocumento'];
+      
+       $res=$controller->isFileExistAll('Volantes',$numDoc);
+           $file=$_FILES['anexoDoc']['name'];
+           $nombre=str_replace('/','-',$numDoc);
+           $file=explode('.',$file);
+           $nameComplete=$nombre.'.'.$file[1];
+           if ($file && move_uploaded_file($_FILES['anexoDoc']['tmp_name'],"./juridico/files/".$nombre.'.'.$file[1])){
+               $controllerUpdate= new UpdateController();
+               $datos=array('anexoDoc'=>$nameComplete,'idVolante'=>$res);
+            
+               $controllerUpdate->updateFile('Volantes',$datos);
+           }
+     
+   });
+
 
 
 ?>

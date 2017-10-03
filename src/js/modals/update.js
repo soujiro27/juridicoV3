@@ -121,11 +121,44 @@ module.exports=class UpdateModals{
                     action:function(e){
                         window.open('/juridico/reportes/Volantes.php'+'?param1='+id)
                     }
+               
+                },
+                closeVolante:{
+                    text:'Cerrar Volante',
+                    btnClass:'btn-warning',
+                    action:function(){
+                        self.confirmaCierreVolante()
+                    }
                 }
             },
+        
             
         })
     }
+
+confirmaCierreVolante(){
+    $.confirm({
+        title:'Esta seguro que desea Cerrar el Volante',
+        theme:'material',
+        content:'<p style="color:red">Recuerde que una vez Cerrado NO se podra modificar mas los datos</p>',
+        buttons:{
+            formSubmit:{
+                text:'Acpetar',
+                btnClass:'btn-blue',
+                action:function(e){
+                   updateController.getDataForm(ruta,campo,id)
+
+
+                }
+            },
+            cancel:{
+                text:'Cancelar',
+                btnClass:'btn-danger',
+            }
+        }
+    })
+}
+    
 
     iracObservaciones(template,idVolante,cveAuditoria,idSubDoc){
         let self=this
@@ -455,4 +488,7 @@ module.exports=class UpdateModals{
             })
     
     }
+
+
+   
 }

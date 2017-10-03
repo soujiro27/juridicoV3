@@ -31,6 +31,9 @@ class Tablas{
         elseif ($modulo=='Documentos') {
             $this->QuerySimple($catTablas->documentos());
         }
+        elseif ($modulo=='DocumentosGral') {
+            $this->QuerySimple($catTablas->documentosGral());
+        }
            
    }
 

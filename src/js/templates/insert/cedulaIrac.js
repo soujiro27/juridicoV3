@@ -78,7 +78,7 @@ module.exports=class cedulaIrac{
         
             
         <div class="form-group numFolio">
-        <label for="numFolio">Numero Folio</label>
+        <label for="numFolio">Numero de Documento </label>
         <input type="text"  id="numFolio" name="numFolio" required class="form-control"  value="${data["0"].numFolio}" >
         
     </div>

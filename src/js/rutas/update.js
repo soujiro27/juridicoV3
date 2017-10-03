@@ -154,3 +154,23 @@ page('/juridico/Ifa/update/:campo/:id',function(ctx,next){
     })
    
 })
+
+
+page('/juridico/Documentos/update/:campo/:id',function(ctx,next){
+    let idVolante=ctx.params.id
+    get.getRegister('Volantes',{idVolante:idVolante})
+    .then(json=>{
+        let doc=json["0"].anexoDoc
+		window.open("/juridico/files/"+doc)
+    })
+})
+
+
+page('/juridico/DocumentosGral/update/:campo/:id',function(ctx,next){
+    let idVolante=ctx.params.id
+    get.getRegister('Volantes',{idVolante:idVolante})
+    .then(json=>{
+        let doc=json["0"].anexoDoc
+		window.open("/juridico/files/"+doc)
+    })
+})

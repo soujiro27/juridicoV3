@@ -58,6 +58,12 @@ module.exports=class Insert{
                 else if(ruta=='ObservacionesDoctosJuridico' || ruta=='DocumentosSiglas'){
                     ruta=localStorage.getItem("ruta");
                 }
+                else if(ruta=='Documentos'){
+                    self.sendNotificacionVentanilla()
+                }
+                else if(ruta=='DocumentosGral'){
+                    //aqui va de ventanilla al usuario
+                }
                 let drawTable= new table()
                 drawTable.getDataTable(ruta)
             }
@@ -153,6 +159,19 @@ module.exports=class Insert{
         
     }
 
+    sendNotificacionVentanilla(){
+        let self=this
+        model.getRegister('PuestosJuridico',{recepcion:'SI'})
+        .then(json=>{
+            let idEmpleado=json["0"].rpe
+            model.getRegister('usuarios',{idEmpleado:idEmpleado})
+            .then(res=>{
+                let mensaje='Tienes Un nuevo Documento Digitalizado'
+                self.sendNotificacion(res["0"].idUsuario,mensaje,'0',0,'Documentos')
+            })
+        })
+    }
+
    
     
     sendNotificacion(userDest,mensaje,id,auditoria,ruta){
@@ -196,11 +215,124 @@ module.exports=class Insert{
             },
           
             success: function(json){
-              let data=JSON.parse(json)
-              self.statusInsertRegister(json,ruta)
+			  let data=JSON.parse(json)
+              self.statusInsertRegister(data,'Documentos')
+            },
+         
+            error: function(){
+                alert('ocurrio un eror')
             }
         });
 		})
 	}
+
+
+    
+    
+	checkNumeroDocumento(){
+        let self=this
+            $('input#numDocumento').keyup(function(){
+                let valor=$(this).val();
+                let idEmpleado=model.getRegister('usuarios',{idUsuario:nUsr})
+                .then(empleado=>{
+                    let area=empleado["0"].idArea
+                    model.getRegister('Volantes',{numDocumento:valor,idTurnado:area})
+                    .then(json=>{
+                        let container=$('div.uploadContainer')
+                        let send=$('div.uploadInput')
+                        if(json.Error=='Registro No Encontrado'){
+                            container.html(`<h3>${json.Error}</h3>`)
+                            send.hide()
+                        }else{
+                            if(json["0"].anexoDoc==null){
+                                container.html(`<h3>No hay Documentos Asignados</h3>`)
+                                send.show()
+                            }else{
+                                container.html(`<h3>Hay un Documento Asignado <a href="/juridico/files/${json["0"].anexoDoc}" target="_blank"> ${json["0"].anexoDoc}</a></h3>`)
+                                send.show()
+                            }
+                        }
+                    })
+                })
+                
+                
+    
+            
+            })
+        }
+    
+
+        dataFileUpload(){
+            var fileExtension = "";
+            $('input[type=file]').change(function(){
+               var file = $("#imagen")[0].files[0];
+               var fileName = file.name;
+               fileExtension = fileName.substring(fileName.lastIndexOf('.') + 1);
+               var fileSize = file.size;
+               var fileType = file.type;
+           });
+       }
+
+
+       uploadFileAll(){
+		let self=this
+		$('form#documentosJur').on('submit',function(e){
+			e.preventDefault()
+			 var formData = new FormData($(this)[0]);
+			    $.ajax({
+            url: '/juridico/insertAll/uploadFile',  
+            type: 'POST',
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            beforeSend: function(){
+               // message = $("<span class='before'>Subiendo la imagen, por favor espere...</span>");
+                //showMessage(message)        
+            },
+          
+            success: function(json){
+			  let data=JSON.parse(json)
+              self.statusInsertRegister(data,ruta)
+            },
+         
+            error: function(){
+                alert('ocurrio un eror')
+            }
+        });
+		})
+    }
+    
+    checkNumeroDocumentoAll(){
+        let self=this
+            $('input#numDocumento').keyup(function(){
+                let valor=$(this).val();
+                let idEmpleado=model.getRegister('usuarios',{idUsuario:nUsr})
+                .then(empleado=>{
+                    let area=empleado["0"].idArea
+                    model.getRegister('Volantes',{numDocumento:valor})
+                    .then(json=>{
+                        let container=$('div.uploadContainer')
+                        let send=$('div.uploadInput')
+                        if(json.Error=='Registro No Encontrado'){
+                            container.html(`<h3>${json.Error}</h3>`)
+                            send.hide()
+                        }else{
+                            if(json["0"].anexoDoc==null){
+                                container.html(`<h3>No hay Documentos Asignados</h3>`)
+                                send.show()
+                            }else{
+                                container.html(`<h3>Hay un Documento Asignado <a href="/juridico/files/${json["0"].anexoDoc}" target="_blank"> ${json["0"].anexoDoc}</a></h3>`)
+                                send.show()
+                            }
+                        }
+                    })
+                })
+                
+                
+    
+            
+            })
+        }
     
 }

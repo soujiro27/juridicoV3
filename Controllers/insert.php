@@ -147,10 +147,30 @@ class Insert extends Consultas{
             return False;
         }else{
             if($res[0]["anexoDoc"]==NULL){
-                return True;
+                return $res[0]["idVolante"];
             }else{
                 //echo "no es null";
-                return False;
+                return $res[0]["idVolante"];
+            }
+            
+        }
+    }
+
+    public function isFileExistAll($modulo,$numDoc){
+        $get = new Get();
+        $data=array('numDocumento'=>$numDoc);
+        $sql=$this->getAllWhere('Volantes',$data,'AND','=');
+        $arrayPdo=$this->buildArrayPdo($data);
+        $res=$get->consultaWhere($sql,$arrayPdo);
+        if(!$res){
+            //no hay registro
+            return False;
+        }else{
+            if($res[0]["anexoDoc"]==NULL){
+                return $res[0]["idVolante"];
+            }else{
+                //echo "no es null";
+                return $res[0]["idVolante"];
             }
             
         }
