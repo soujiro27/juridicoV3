@@ -238,20 +238,33 @@ module.exports=class Insert{
                     let area=empleado["0"].idArea
                     model.getRegister('Volantes',{numDocumento:valor,idTurnado:area})
                     .then(json=>{
-                        let container=$('div.uploadContainer')
-                        let send=$('div.uploadInput')
-                        if(json.Error=='Registro No Encontrado'){
-                            container.html(`<h3>${json.Error}</h3>`)
-                            send.hide()
-                        }else{
-                            if(json["0"].anexoDoc==null){
-                                container.html(`<h3>No hay Documentos Asignados</h3>`)
-                                send.show()
+                        let id=json["0"].idVolante
+                        model.getRegister('turnosJuridico',{idVolante:id})
+                        .then(res=>{
+                            if(res["0"].estadoProceso=='CERRADO'){
+                                let container=$('div.uploadContainer')
+                                
+                                container.html(`<h3>El Volante esta Cerrado No se pueden añadir Documentos</h3>`)
+                                $('input[type=submit]').prop('disabled', true)
                             }else{
-                                container.html(`<h3>Hay un Documento Asignado <a href="/juridico/files/${json["0"].anexoDoc}" target="_blank"> ${json["0"].anexoDoc}</a></h3>`)
-                                send.show()
+                                let container=$('div.uploadContainer')
+                                let send=$('div.uploadInput')
+                                if(json.Error=='Registro No Encontrado'){
+                                    container.html(`<h3>${json.Error}</h3>`)
+                                    send.hide()
+                                }else{
+                                    if(json["0"].anexoDoc==null){
+                                        container.html(`<h3>No hay Documentos Asignados</h3>`)
+                                        $('input[type=submit]').prop('disabled', false)
+                                    }else{
+                                        container.html(`<h3>Hay un Documento Asignado <a href="/juridico/files/${json["0"].anexoDoc}" target="_blank"> ${json["0"].anexoDoc}</a></h3>`)
+                                        $('input[type=submit]').prop('disabled', false)
+                                    }
+                                }
+
                             }
-                        }
+                        })
+                     
                     })
                 })
                 
@@ -312,20 +325,32 @@ module.exports=class Insert{
                     let area=empleado["0"].idArea
                     model.getRegister('Volantes',{numDocumento:valor})
                     .then(json=>{
-                        let container=$('div.uploadContainer')
-                        let send=$('div.uploadInput')
-                        if(json.Error=='Registro No Encontrado'){
-                            container.html(`<h3>${json.Error}</h3>`)
-                            send.hide()
-                        }else{
-                            if(json["0"].anexoDoc==null){
-                                container.html(`<h3>No hay Documentos Asignados</h3>`)
-                                send.show()
+                        let id=json["0"].idVolante
+                        model.getRegister('turnosJuridico',{idVolante:id})
+                        .then(res=>{
+                            if(res["0"].estadoProceso=='CERRADO'){
+                                let container=$('div.uploadContainer')
+                                
+                                container.html(`<h3>El Volante esta Cerrado No se pueden añadir Documentos</h3>`)
+                                $('input[type=submit]').prop('disabled', true)
                             }else{
-                                container.html(`<h3>Hay un Documento Asignado <a href="/juridico/files/${json["0"].anexoDoc}" target="_blank"> ${json["0"].anexoDoc}</a></h3>`)
-                                send.show()
+                                let container=$('div.uploadContainer')
+                                let send=$('div.uploadInput')
+                                if(json.Error=='Registro No Encontrado'){
+                                    container.html(`<h3>${json.Error}</h3>`)
+                                    send.hide()
+                                }else{
+                                    if(json["0"].anexoDoc==null){
+                                        container.html(`<h3>No hay Documentos Asignados</h3>`)
+                                        $('input[type=submit]').prop('disabled', false)
+                                    }else{
+                                        container.html(`<h3>Hay un Documento Asignado <a href="/juridico/files/${json["0"].anexoDoc}" target="_blank"> ${json["0"].anexoDoc}</a></h3>`)
+                                        $('input[type=submit]').prop('disabled', false)
+                                    }
+                                }
                             }
-                        }
+                        })
+                       
                     })
                 })
                 

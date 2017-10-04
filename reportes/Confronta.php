@@ -25,7 +25,7 @@ function consultaRetorno($sql,$db){
 
 $sql="select v.idRemitente,v.numDocumento,
 a.idEmpleadoTitular,a.nombre as area,
-CONCAT(u.saludo,' ',e.nombre,' ',e.paterno,' ',e.materno) as titular,
+CONCAT(u.saludo,' ',u.nombre,' ',e.paterno,' ',e.materno) as titular,
 audi.clave,
 dbo.lstSujetosByAuditoria(audi.idAuditoria) as ente,
 con.notaInformativa, con.nombreResponsable, con.cargoResponsable, con.siglas, con.siglas,con.fOficio,con.hConfronta, con.fConfronta, con.numFolio, catsub.idTipoDocto as tipo
@@ -124,7 +124,7 @@ $pdf->Cell(20,5,'DE: ',0,0,'L');
 $pdf->Cell(90,5,$destTxt,0,0,'L');
 $pdf->Ln(5);
 $pdf->Cell(20,5,'',0,0,'L');
-$pdf->Cell(90,5,'DIRECTOR GENERAL DE ASUNTOS JURIDICOS',0,0,'L');
+$pdf->Cell(90,5,'DIRECTOR GENERAL DE ASUNTOS JURÍDICOS',0,0,'L');
 $pdf->Ln(15);
 
 $pdf->SetFont('Arial','',10);

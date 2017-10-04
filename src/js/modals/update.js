@@ -10,7 +10,7 @@ const constrollerInsert=require('./../controllers/insert.js')
 const model=require('./../models/get')
 const iracCedula=require('./../templates/insert/cedulaIrac')
 const ifaCedula=require('./../templates/insert/cedulaIfa')
-
+const table=require('./../controllers/tablas')
 
 
 const updateController=new controllerUpdate()
@@ -84,23 +84,20 @@ module.exports=class UpdateModals{
     }
 
 
-    modalPrint(ruta,template,campo,id){
+    modalPrint(ruta,template,campo,id,estado){
         let self=this
         let titulo = 'Actualizar '+ruta
         $.confirm({
             title:titulo,
             theme:'material',
             content:template,
-            onOpenBefore:function(){
-                /*try{
-                    CKEDITOR.disableAutoInline = true;
-                    let editor=CKEDITOR.inline('updateTexto');
-                    editor.on('change',function(e){
-                        $('textarea#updateTexto').text(editor.getData())
-                    })
-                }catch(err){
-                    console.log(err)
-                }*/
+            onContentReady:function(){
+               if(estado["0"].estadoProceso=='CERRADO'){
+                   console.log("cerrado")
+                   $('form#Volantes input[type="date"]').prop('readonly')
+                   this.$$formSubmit.prop('disabled', true)
+                   this.$$closeVolante.prop('disabled', true)
+               }
             },
             buttons:{
                 formSubmit:{
@@ -127,7 +124,7 @@ module.exports=class UpdateModals{
                     text:'Cerrar Volante',
                     btnClass:'btn-warning',
                     action:function(){
-                        self.confirmaCierreVolante()
+                        self.confirmaCierreVolante(id)
                     }
                 }
             },
@@ -136,17 +133,24 @@ module.exports=class UpdateModals{
         })
     }
 
-confirmaCierreVolante(){
+confirmaCierreVolante(id){
     $.confirm({
-        title:'Esta seguro que desea Cerrar el Volante',
+        title:'¿Esta seguro que desea Cerrar el Volante?',
         theme:'material',
         content:'<p style="color:red">Recuerde que una vez Cerrado NO se podra modificar mas los datos</p>',
         buttons:{
             formSubmit:{
-                text:'Acpetar',
+                text:'Aceptar',
                 btnClass:'btn-blue',
                 action:function(e){
-                   updateController.getDataForm(ruta,campo,id)
+                    
+                   let datos={estadoProceso:'CERRADO',idVolante:id}
+                   get.sendDataToUpdate('turnosJuridico',datos)
+                   .then(json=>{
+                    let drawTable= new table()
+                    drawTable.getDataTable('Volantes')
+                   })
+
 
 
                 }
@@ -160,7 +164,7 @@ confirmaCierreVolante(){
 }
     
 
-    iracObservaciones(template,idVolante,cveAuditoria,idSubDoc){
+    iracObservaciones(template,idVolante,cveAuditoria,idSubDoc,estado){
         let self=this
         let complete=$.confirm({
             title:'Obervaciones Irac',
@@ -234,7 +238,13 @@ confirmaCierreVolante(){
                 }
             },
             onContentReady:function(){
-                
+                if(estado["0"].estadoProceso=='CERRADO'){
+                    console.log("cerrado")
+                    $('form#Volantes input[type="date"]').prop('readonly')
+                    this.$$confirm.prop('disabled', true)
+                    this.$$somethingElse.prop('disabled', true)
+                }else{
+
                 $('table#ObservacionesIrac tbody tr').click(function(){
                     let id=$(this).data('id')
                     get.getRegister('ObservacionesDoctosJuridico',{idObservacionDoctoJuridico:id})
@@ -246,6 +256,7 @@ confirmaCierreVolante(){
                     })
 
                 })
+            }
             }
         })
     }
@@ -288,7 +299,7 @@ confirmaCierreVolante(){
         })
     }
 
-    confronta(ruta,template,campo,id,nota,idVolante){
+    confronta(ruta,template,campo,id,nota,idVolante,estado){
         $.confirm({
             title:'Actualizar Registro',
             theme:'material',
@@ -316,15 +327,22 @@ confirmaCierreVolante(){
                 }
             },
             onOpenBefore:function(){
+                if(estado["0"].estadoProceso=='CERRADO'){
+                    console.log("cerrado")
+                    $('form#Volantes input[type="date"]').prop('readonly')
+                    this.$$formSubmit.prop('disabled', true)
+                   
+                }else{
                 $('input.fechaInput').datepicker({ dateFormat: "yy-mm-dd" });
                 if(nota===null){
                     $('div.notaInformativa').remove()
                 }
             }
+            }
         })
     }
 
-    ifaObservaciones(template,idVolante,cveAuditoria,idSubDoc){
+    ifaObservaciones(template,idVolante,cveAuditoria,idSubDoc,estado){
         let self=this
         let complete=$.confirm({
             title:'Obervaciones Ifa',
@@ -405,7 +423,15 @@ confirmaCierreVolante(){
                 }
             },
             onContentReady:function(){
+                if(estado["0"].estadoProceso=='CERRADO'){
+                    console.log("cerrado")
+                    $('form#Volantes input[type="date"]').prop('readonly')
+                    this.$$confirm.prop('disabled', true)
+                    this.$$somethingElse.prop('disabled', true)
+                }else{
+
                 
+
                 $('table#ObservacionesIrac tbody tr').click(function(){
                     let id=$(this).data('id')
                     get.getRegister('ObservacionesDoctosJuridico',{idObservacionDoctoJuridico:id})
@@ -417,6 +443,7 @@ confirmaCierreVolante(){
                     })
 
                 })
+            }
             }
         })
     }

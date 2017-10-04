@@ -70,18 +70,21 @@ page('/juridico/SubTiposDocumentos/update/:campo/:id',function(ctx,next){
 
 
  page('/juridico/Volantes/update/:campo/:id',function(ctx,next){
+    let idVolante=ctx.params.id
     let data=updateController.creaObjeto(ctx)
     let volante=get.getRegister(ruta,data)
     let caracter=get.getRegister('Caracteres',{estatus:'ACTIVO'})
 	let turnado=get.getRegister('areas',{idAreaSuperior:'DGAJ'})
-	let accion=get.getRegister('Acciones',{estatus:'ACTIVO'})
-    Promise.all([volante,caracter,turnado,accion])
+    let accion=get.getRegister('Acciones',{estatus:'ACTIVO'})
+    let estatus=get.getRegister('turnosJuridico',{idVolante:idVolante})
+    Promise.all([volante,caracter,turnado,accion,estatus])
     .then(json=>{
+      
         const getTemplate=require('./../templates/update/Volantes')
         let template=new getTemplate()
         template=template.render(json[0],json[1],json[2],json[3])
-        modal.modalPrint(ruta,template,ctx.params.campo,ctx.params.id)
-       
+        modal.modalPrint(ruta,template,ctx.params.campo,ctx.params.id,json[4])
+        
     })
  })
 
@@ -90,13 +93,14 @@ page('/juridico/SubTiposDocumentos/update/:campo/:id',function(ctx,next){
     let idVolante=ctx.params.id
     let observaciones=get.getRegister('ObservacionesDoctosJuridico',{idVolante:idVolante})
     let volantesDoc=get.getRegister('VolantesDocumentos',{idVolante:idVolante})
-    Promise.all([observaciones,volantesDoc])
+    let estatus=get.getRegister('turnosJuridico',{idVolante:idVolante})
+    Promise.all([observaciones,volantesDoc,estatus])
     .then(json=>{
         
         const getMainTemplate=require('./../templates/insert/Irac')
         let template= new getMainTemplate()
         let el=template.incio(idVolante,json[0])
-        modal.iracObservaciones(el,idVolante,json[1]["0"].cveAuditoria,json[1]["0"].idSubTipoDocumento)
+        modal.iracObservaciones(el,idVolante,json[1]["0"].cveAuditoria,json[1]["0"].idSubTipoDocumento,json[2])
     })
    
 })
@@ -104,9 +108,11 @@ page('/juridico/SubTiposDocumentos/update/:campo/:id',function(ctx,next){
 
 page('/juridico/confrontasJuridico/update/:campo/:id',function(ctx,next){
     let idVolante=ctx.params.id
-   get.getRegister('ConfrontasJuridico',{idVolante:idVolante})
+   let confronta=get.getRegister('ConfrontasJuridico',{idVolante:idVolante})
+   let estatus=get.getRegister('turnosJuridico',{idVolante:idVolante})
+   Promise.all([confronta,estatus])
    .then(res=>{
-       if(res.Error=='Registro No Encontrado'){
+       if(res["0"].Error=='Registro No Encontrado'){
         get.getRegister('VolantesDocumentos',{idVolante:idVolante})
         .then(json=>{
             let sub=json["0"].idSubTipoDocumento
@@ -122,16 +128,18 @@ page('/juridico/confrontasJuridico/update/:campo/:id',function(ctx,next){
                 if(tipo=='OFICIO' && nota=='NO'){
                     $('div.notaInformativa').remove()
                 }else if(tipo=='NOTA'){ $('div.notaInformativa').remove()}
+
                 insert.btnCancelar('confrontasJuridico')
                 insert.getDataForm('confrontasJuridico',false)
             })
         })
        }
        else{
+           
         const conf=require('./../templates/update/confronta')
         const confronta=new conf()
-        let template=confronta.render(res)
-        modal.confronta('confrontasJuridico',template,'idConfrontaJuridico',res[0].idConfrontaJuridico,res[0].notaInformativa,idVolante)
+        let template=confronta.render(res[0])
+        modal.confronta('confrontasJuridico',template,'idConfrontaJuridico',res[0][0].idConfrontaJuridico,res[0][0].notaInformativa,idVolante,res[1])
        }
    }) 
 
@@ -144,13 +152,14 @@ page('/juridico/Ifa/update/:campo/:id',function(ctx,next){
     let idVolante=ctx.params.id
     let observaciones=get.getRegister('ObservacionesDoctosJuridico',{idVolante:idVolante})
     let volantesDoc=get.getRegister('VolantesDocumentos',{idVolante:idVolante})
-    Promise.all([observaciones,volantesDoc])
+    let estatus=get.getRegister('turnosJuridico',{idVolante:idVolante})
+    Promise.all([observaciones,volantesDoc,estatus])
     .then(json=>{
         
         const getMainTemplate=require('./../templates/insert/Irac')
         let template= new getMainTemplate()
         let el=template.incio(idVolante,json[0])
-        modal.ifaObservaciones(el,idVolante,json[1]["0"].cveAuditoria,json[1]["0"].idSubTipoDocumento)
+        modal.ifaObservaciones(el,idVolante,json[1]["0"].cveAuditoria,json[1]["0"].idSubTipoDocumento,json[2])
     })
    
 })
