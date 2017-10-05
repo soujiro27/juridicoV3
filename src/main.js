@@ -8,12 +8,17 @@ const menu = require('./js/menu/menu')
 const table=require('./js/controllers/tablas')
 const order = require('./js/controllers/orderAll')
 
+if(ruta=='foliosVolantes'){
 
-let $tables= new table()
-$tables.getDataTable(ruta)
-let $order = new order()
-$order.getDataTableOrder(ruta)
+}else{
+    let $tables= new table()
+    $tables.getDataTable(ruta)
+    let $order = new order()
+    $order.getDataTableOrder(ruta)
+}
+
+
+
+
 menu()
-
-
 page()

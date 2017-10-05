@@ -131,4 +131,17 @@ page('/juridico/DocumentosGral/add',function(ctx,next){
         insert.btnCancelar(ruta)
     })
 
-
+    page('/juridico/foliosVolantes/add',function(ctx,next){
+    
+        get.getTableOrder('Volantes',{campo:'idVolante',tipo:'ASC'})
+        .then((json)=>{
+            let folios=[]
+            for(let x in json)
+            {
+                folios.push(json[x].folio)
+            }
+            console.log('folios', folios);
+        })
+    
+    })
+        

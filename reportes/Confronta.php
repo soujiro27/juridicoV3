@@ -93,7 +93,7 @@ $ente=convierte($ente);
 $footer=convierte('Sin otro particular, hago propicia la ocasión para enviarle un coordial saludo.');
 $hora=substr($datos[0]['hConfronta'],0,-11);
 $tiempo=$datos[0]['fConfronta']."\n".$hora.' Horas.';
-
+$director=convierte('DIRECTOR GENERAL DE ASUNTOS JURÍDICOS');
 
 
 
@@ -124,7 +124,7 @@ $pdf->Cell(20,5,'DE: ',0,0,'L');
 $pdf->Cell(90,5,$destTxt,0,0,'L');
 $pdf->Ln(5);
 $pdf->Cell(20,5,'',0,0,'L');
-$pdf->Cell(90,5,'DIRECTOR GENERAL DE ASUNTOS JURÍDICOS',0,0,'L');
+$pdf->Cell(90,5,$director,0,0,'L');
 $pdf->Ln(15);
 
 $pdf->SetFont('Arial','',10);

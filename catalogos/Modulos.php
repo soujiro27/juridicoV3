@@ -19,7 +19,8 @@ class Catalogos{
         'Ifa',
         'Documentos',
         'DocumentosGral',
-        'turnosJuridico'
+        'turnosJuridico',
+        'foliosVolantes'
     ];
     private $catalogos=[
         'Caracteres',

@@ -324,13 +324,13 @@ $elementos=count($nombres);
     $elaboro='<tr>';
     foreach ($nombres as $llave => $valor) {
         if($cont>2){
-          $elaboro=$elaboro.'<br><br><br><br><tr><td align="center"><p>ELABORÓ</p><br><br><br><br>'.$saludo[$llave]. $valor.'<br>'.$puestos[$llave].'</td></tr>';
+          $elaboro=$elaboro.'<br><br><br><br><tr><td align="center"><p>ELABORÓ</p><br><br><br><br>'.$saludo[$llave].' '. $valor.'<br>'.$puestos[$llave].'</td></tr>';
         }elseif($cont>1){
 
-        $elaboro=$elaboro.'<td align="center"><p>ELABORÓ</p><br><br><br><br>'.$saludo[$llave].$valor.'<br><br><br>'.$puestos[$llave].'</td></tr>';
+        $elaboro=$elaboro.'<td align="center"><p>ELABORÓ</p><br><br><br><br>'.$saludo[$llave].' '.$valor.'<br><br><br>'.$puestos[$llave].'</td></tr>';
 
         }else{
-           $elaboro=$elaboro.'<td align="center"><p>ELABORÓ</p><br><br><br><br>'.$saludo[$llave].$valor.'<br>'.$puestos[$llave].'</td>';
+           $elaboro=$elaboro.'<td align="center"><p>ELABORÓ</p><br><br><br><br>'.$saludo[$llave].' '.$valor.'<br>'.$puestos[$llave].'</td>';
         }
         $cont++;
       } 
