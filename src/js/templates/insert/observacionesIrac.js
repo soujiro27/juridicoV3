@@ -6,8 +6,8 @@ module.exports=class addObsvIRac{
     
     
     <div class="form-group pagina">
-        <label for="pagina">Hoja</label>
-        <input type="number"  id="pagina" name="pagina" required class="form-control"   >
+        <label for="text">Hoja</label>
+        <input type="text"  id="pagina" name="pagina" required class="form-control"   >
         <input type="hidden"  name="idVolante" value="${idVolante}"  >
         <input type="hidden"  name="cveAuditoria" value="${cveAuditoria}"  >
         <input type="hidden"  name="idSubTipoDocumento" value="${idSubDoc}"  >

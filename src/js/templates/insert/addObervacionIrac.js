@@ -9,7 +9,7 @@ module.exports=class addIracObservaciones{
     
     <div class="form-group pagina">
         <label for="pagina">Hoja</label>
-        <input type="number"  id="pagina" name="pagina" required class="form-control"   >
+        <input type="text"  id="pagina" name="pagina" required class="form-control"   >
         <input type="hidden"  name="idVolante" value="${idVolante}"  >
         <input type="hidden"  name="idSubTipoDocumento" value="${sub}" >
         <input type="hidden"  name="cveAuditoria" value="${cve}"  >
